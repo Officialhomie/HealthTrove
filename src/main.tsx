@@ -8,7 +8,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { WagmiProvider } from 'wagmi'
 
-import { base } from 'wagmi/chains'; 
+import { baseSepolia } from 'wagmi/chains'; 
 
 
 import App from './App.tsx'
@@ -27,7 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
       <OnchainKitProvider
           apiKey={key}
-          chain={base}
+          chain={baseSepolia}
         >
           <App />
         </OnchainKitProvider>
