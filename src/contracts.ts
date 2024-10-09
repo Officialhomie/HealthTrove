@@ -2,11 +2,11 @@ import contractAbi from './contractAbi.json'
 
 const myContractABI = contractAbi
 
-const myContractAddress = '0x21852815B962FBF2F61eA8b403A47F21b7e1458C'
+const myContractAddress = '0x991eb294f51661bff40B16f7f023C387e98Fc813'
 
-const contract = {
+const contractHRC = {
     abi: myContractABI,
     address: myContractAddress
 }
 
-export default contract
+export default contractHRC

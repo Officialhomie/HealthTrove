@@ -3,19 +3,23 @@ import { injected, metaMask } from 'wagmi/connectors'
 import { BlackCreateWalletButton } from './components/BlackCreateWalletButton'
 import IdentityComponent from './components/BaseNames'
 import { WalletComponents } from './components/WalletComponent'
-import AdminRole from './Readfunctions/AdminRole'
-import RegisterPatients from './writefunctions/RegisterPatients'
-import AddDoctors from './writefunctions/AddDoctors'
-import AddHealthRecord from './writefunctions/AddHealthRecord'
-import DeactivateRecord from './writefunctions/DeactivateRecord'
-import UpdateHealthRecord from './writefunctions/UpdateHealthRecord'
-import GrantRole from './writefunctions/GrantRole'
-import RenounceRole from './writefunctions/RenounceRole'
-import RemoveDoctor from './writefunctions/RemoveDoctor'
-import GiveConsent from './writefunctions/GiveConsent'
-import RevokeConsent from './writefunctions/RevokeConsent'
+import AdminRole from './HRCReadfunctions/AdminRole'
+import RegisterPatients from './HRCWritefunctions/RegisterPatients'
+import AddDoctors from './HRCWritefunctions/AddDoctors'
+import AddHealthRecord from './HRCWritefunctions/AddHealthRecord'
+import DeactivateRecord from './HRCWritefunctions/DeactivateRecord'
+import UpdateHealthRecord from './HRCWritefunctions/UpdateHealthRecord'
+import GrantRole from './HRCWritefunctions/GrantRole'
+import RenounceRole from './HRCWritefunctions/RenounceRole'
+import RemoveDoctor from './HRCWritefunctions/RemoveDoctor'
+import GiveConsent from './HRCWritefunctions/GiveConsent'
+import RevokeConsent from './HRCWritefunctions/RevokeConsent'
 import DoctorRegisteredListener from './events/DoctorRegistered'
-import GetAllDoctors from './Readfunctions/GetAllDoctors'
+import GetAllDoctors from './HRCReadfunctions/GetAllDoctors'
+import FetchPastEvent from './HRCReadfunctions/FetchPastEvent'
+import PatientRegisteredListener from './events/PatientRegistered'
+import GetAllPatients from './HRCReadfunctions/GetAllPatients'
+import HasRole from './HRCReadfunctions/HasRole'
 
 function App() {
   const account = useAccount()
@@ -26,7 +30,7 @@ function App() {
     <div className="container mx-auto p-4">
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/3 mb-8 md:mb-0">
-          <IdentityComponent address={account.address ?? ''} />
+          {/* <IdentityComponent address={account.address ?? ''} /> */}
         </div>
         <div className="w-full md:w-2/3 md:pl-8">
           <div className="mb-12 space-y-8">
@@ -88,38 +92,48 @@ function App() {
           >
             Connect
           </button>
-
+          
           <WalletComponents />
+        </div>
+      </div>
 
-          <AdminRole />
+      <div className="grid gap-8">
+        {/* Write Functions */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Write Functions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <RegisterPatients />
+            <AddDoctors />
+            <AddHealthRecord />
+            <DeactivateRecord />
+            <UpdateHealthRecord />
+            <GiveConsent />
+            <GrantRole />
+            <RenounceRole />
+            <RemoveDoctor />
+            <RevokeConsent />
+          </div>
+        </div>
 
-          <RegisterPatients />  
+        {/* Read Functions */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Read Functions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AdminRole />
+            <GetAllDoctors />
+            <GetAllPatients />
+            <HasRole />
+          </div>
+        </div>
 
-          <AddDoctors />
-
-          <AddHealthRecord /> 
-
-          <DeactivateRecord />
-
-          <UpdateHealthRecord />
-
-          <GiveConsent />
-
-          <RegisterPatients />  
-
-          <GrantRole />
-
-          <RenounceRole />
-
-          <RemoveDoctor />  
-
-          <RevokeConsent />
-
-          <DoctorRegisteredListener />
-
-          <GetAllDoctors />
-
-
+        {/* Events */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Events</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <DoctorRegisteredListener />
+            <PatientRegisteredListener />
+            {/* <FetchPastEvent /> */}
+          </div>
         </div>
       </div>
     </div>

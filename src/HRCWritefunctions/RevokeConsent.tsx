@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import contract from '../contracts';
+import { isAddress } from 'viem';
+import contractHRC from '../contracts';
 
-const GiveConsent = () => {
+const RevokeConsent = () => {
     const [doctorAddress, setDoctorAddress] = useState('');
-    const [consentStatus, setConsentStatus] = useState('');
+    const [revokeStatus, setRevokeStatus] = useState('');
 
     const { writeContract, data: hash, error, isPending } = useWriteContract();
 
@@ -13,29 +14,34 @@ const GiveConsent = () => {
             hash,
         });
 
-    const handleGiveConsent = async () => {
-        if (!doctorAddress || !/^0x[a-fA-F0-9]{40}$/.test(doctorAddress)) {
-            setConsentStatus('Please enter a valid Ethereum address');
+    const handleRevokeConsent = async () => {
+        if (!doctorAddress) {
+            setRevokeStatus('Please enter the doctor\'s address');
+            return;
+        }
+
+        if (!isAddress(doctorAddress)) {
+            setRevokeStatus('Please enter a valid Ethereum address');
             return;
         }
 
         try {
             await writeContract({
-                address: contract.address as `0x${string}`,
-                abi: contract.abi,
-                functionName: 'giveConsent',
+                address: contractHRC.address as `0x${string}`,
+                    abi: contractHRC.abi,
+                functionName: 'revokeConsent',
                 args: [doctorAddress],
             });
-            setConsentStatus('Consent request sent');
+            setRevokeStatus('Consent revoke request sent');
         } catch (error) {
-            console.error('Error giving consent:', error);
-            setConsentStatus('Error giving consent');
+            console.error('Error revoking consent:', error);
+            setRevokeStatus('Error revoking consent');
         }
     };
 
     return (
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Give Consent to Doctor</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Revoke Consent</h2>
             <div className="mb-4">
                 <input
                     type="text"
@@ -46,17 +52,17 @@ const GiveConsent = () => {
                 />
             </div>
             <button
-                onClick={handleGiveConsent}
+                onClick={handleRevokeConsent}
                 disabled={isPending || isConfirming}
-                className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-                {isPending ? 'Sending...' : isConfirming ? 'Confirming...' : 'Give Consent'}
+                {isPending ? 'Revoking...' : isConfirming ? 'Confirming...' : 'Revoke Consent'}
             </button>
-            {isConfirmed && <p className="mt-4 text-lg text-center text-green-600">Consent given successfully!</p>}
+            {isConfirmed && <p className="mt-4 text-lg text-center text-green-600">Consent revoked successfully!</p>}
             {error && <p className="mt-4 text-lg text-center text-red-600">Error: {error.message}</p>}
-            {consentStatus && <p className="mt-4 text-lg text-center">{consentStatus}</p>}
+            {revokeStatus && <p className="mt-4 text-lg text-center">{revokeStatus}</p>}
         </div>
     );
 };
 
-export default GiveConsent;
+export default RevokeConsent;

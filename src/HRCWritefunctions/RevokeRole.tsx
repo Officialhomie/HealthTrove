@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { isAddress, keccak256, toBytes } from 'viem';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 const RevokeRole = () => {
     const [roleType, setRoleType] = useState('');
@@ -29,8 +29,8 @@ const RevokeRole = () => {
         try {
             const roleHash = keccak256(toBytes(roleType));
             await writeContract({
-                address: contract.address as `0x${string}`,
-                abi: contract.abi,
+                address: contractHRC.address as `0x${string}`,
+                abi: contractHRC.abi,
                 functionName: 'revokeRole',
                 args: [roleHash, accountAddress],
             });

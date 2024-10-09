@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 interface HealthRecord {
     id: bigint;
@@ -17,10 +17,10 @@ const GetHealthRecord = () => {
     const [fetchStatus, setFetchStatus] = useState('');
 
     const { data, isError, isLoading } = useReadContract({
-        ...contract,
+        ...contractHRC ,
         functionName: 'getHealthRecord',
         args: [BigInt(recordId || '0')],
-        address: contract.address as `0x${string}`,
+        address: contractHRC.address as `0x${string}`,
     });
 
     const handleFetchHealthRecord = () => {

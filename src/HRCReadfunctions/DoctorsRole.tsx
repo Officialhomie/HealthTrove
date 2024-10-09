@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 const DoctorRole = () => {
     const [walletAddress, setWalletAddress] = useState('');
@@ -8,17 +8,17 @@ const DoctorRole = () => {
 
     // Fetch the DOCTOR_ROLE constant from the contract
     const { data: doctorRole, isError, isLoading } = useReadContract({
-        ...contract,
+        ...contractHRC,
         functionName: 'DOCTOR_ROLE',
-        address: contract.address as `0x${string}`,
+        address: contractHRC.address as `0x${string}`,
     });
 
     // Check if the given wallet address has the DOCTOR_ROLE
     const { data: isDoctor } = useReadContract({
-        ...contract,
+        ...contractHRC,
         functionName: 'hasRole',
         args: [doctorRole, walletAddress],
-        address: contract.address as `0x${string}`,
+        address: contractHRC.address as `0x${string}`,
     });
 
     const handleCheckRole = () => {

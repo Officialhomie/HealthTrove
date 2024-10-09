@@ -1,36 +1,38 @@
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
-const AdminRole = () => {
+const PatientRole = () => {
     const [walletAddress, setWalletAddress] = useState('');
-    const [hasAdminRole, setHasAdminRole] = useState(false);
+    const [hasPatientRole, setHasPatientRole] = useState(false);
 
-    const { data: adminRole, isError, isLoading } = useReadContract({
-        ...contract,
-        functionName: 'ADMIN_ROLE',
-        address: contract.address as `0x${string}`,
+    // Fetch the PATIENT_ROLE constant from the contract
+    const { data: patientRole, isError, isLoading } = useReadContract({
+        ...contractHRC,
+        functionName: 'PATIENT_ROLE',
+        address: contractHRC.address as `0x${string}`,
     });
 
-    const { data: isAdmin } = useReadContract({
-        ...contract,
+    // Check if the given wallet address has the PATIENT_ROLE
+    const { data: isPatient } = useReadContract({
+        ...contractHRC,
         functionName: 'hasRole',
-        args: [adminRole, walletAddress],
-        address: contract.address as `0x${string}`,
+        args: [patientRole, walletAddress],
+        address: contractHRC.address as `0x${string}`,
     });
 
     const handleCheckRole = () => {
-        if (isAdmin !== undefined) {
-            setHasAdminRole(!!isAdmin);
+        if (isPatient !== undefined) {
+            setHasPatientRole(!!isPatient);
         }
     };
 
     if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error fetching admin role</div>;
+    if (isError) return <div>Error fetching patient role</div>;
 
     return (
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Check Admin Role</h2>
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Check Patient Role</h2>
             <div className="mb-4">
                 <input
                     type="text"
@@ -47,14 +49,14 @@ const AdminRole = () => {
                 Check Role
             </button>
             {walletAddress && (
-                <p className={`mt-4 text-lg ${hasAdminRole ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                    {hasAdminRole
-                        ? `${walletAddress} has admin role.`
-                        : `${walletAddress} does not have admin role.`}
+                <p className={`mt-4 text-lg ${hasPatientRole ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                    {hasPatientRole
+                        ? `${walletAddress} has patient role.`
+                        : `${walletAddress} does not have patient role.`}
                 </p>
             )}
         </div>
     );
 }
 
-export default AdminRole;
+export default PatientRole;

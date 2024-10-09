@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { keccak256, toBytes, stringToHex } from 'viem';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 const GrantRole = () => {
     const [roleType, setRoleType] = useState('');
@@ -29,8 +29,8 @@ const GrantRole = () => {
         try {
             const roleHash = keccak256(toBytes(stringToHex(roleType)));
             await writeContract({
-                address: contract.address as `0x${string}`,
-                abi: contract.abi,
+                address: contractHRC.address as `0x${string}`,
+                abi: contractHRC.abi,
                 functionName: 'grantRole',
                 args: [roleHash, accountAddress],
             });

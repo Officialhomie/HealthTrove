@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 const HasRole = () => {
     const [role, setRole] = useState('');
@@ -9,10 +9,10 @@ const HasRole = () => {
     const [fetchStatus, setFetchStatus] = useState('');
 
     const { data, isError, isLoading } = useReadContract({
-        ...contract,
+        ...contractHRC,
         functionName: 'hasRole',
         args: [role, account],
-        address: contract.address as `0x${string}`,
+        address: contractHRC.address as `0x${string}`,
     });
 
     const handleCheckRole = () => {

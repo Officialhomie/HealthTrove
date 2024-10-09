@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useWatchContractEvent } from 'wagmi';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 import { Log } from 'viem';
 
@@ -14,8 +14,8 @@ const DoctorRegisteredListener = () => {
     const [doctors, setDoctors] = useState<`0x${string}`[]>([]);
 
     useWatchContractEvent({
-        address: contract.address as `0x${string}`,
-        abi: contract.abi,
+        address: contractHRC.address as `0x${string}`,
+        abi: contractHRC.abi,
         eventName: 'DoctorRegistered',
         onLogs(logs) {
             logs.forEach((log) => {

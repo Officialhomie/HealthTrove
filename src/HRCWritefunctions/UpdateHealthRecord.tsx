@@ -75,7 +75,7 @@
 
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 const UpdateHealthRecord = () => {
     const [recordId, setRecordId] = useState('');
@@ -99,8 +99,8 @@ const UpdateHealthRecord = () => {
 
         try {
             const result = await writeContract({
-                address: contract.address as `0x${string}`,
-                abi: contract.abi,
+                address: contractHRC.address as `0x${string}`,
+                abi: contractHRC.abi,
                 functionName: 'updateHealthRecord',
                 args: [parseInt(recordId), newIpfsHash],  // Passing the recordId as a uint256
             });

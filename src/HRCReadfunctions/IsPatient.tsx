@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 const IsPatient = () => {
     const [address, setAddress] = useState('');
@@ -8,10 +8,10 @@ const IsPatient = () => {
     const [fetchStatus, setFetchStatus] = useState('');
 
     const { data, isError, isLoading } = useReadContract({
-        ...contract,
+        ...contractHRC,
         functionName: 'isPatient',
         args: [address],
-        address: contract.address as `0x${string}`,
+        address: contractHRC.address as `0x${string}`,
     });
 
     const handleCheckPatient = () => {

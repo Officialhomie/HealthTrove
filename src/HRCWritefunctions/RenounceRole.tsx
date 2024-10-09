@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
 import { keccak256, toBytes } from 'viem';
-import contract from '../contracts';
+import contractHRC from '../contracts';
 
 const RenounceRole = () => {
     const [roleType, setRoleType] = useState('');
@@ -29,8 +29,8 @@ const RenounceRole = () => {
         try {
             const roleHash = keccak256(toBytes(roleType));
             await writeContract({
-                address: contract.address as `0x${string}`,
-                abi: contract.abi,
+                address: contractHRC.address as `0x${string}`,
+                abi: contractHRC.abi,
                 functionName: 'renounceRole',
                 args: [roleHash, address],
             });
