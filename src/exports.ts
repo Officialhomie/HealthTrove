@@ -9,9 +9,21 @@ export { WalletComponents } from './components/WalletComponent';
 
 // Healthcare Record Contracts - HRC Read functions
 export { default as AdminRole } from './HRCReadfunctions/AdminRole';
+export { default as DoctorsRole } from './HRCReadfunctions/DoctorsRole';
+export { default as PatientRole } from './HRCReadfunctions/PatientRole';
 export { default as GetAllDoctors } from './HRCReadfunctions/GetAllDoctors';
 export { default as GetAllPatients } from './HRCReadfunctions/GetAllPatients';
 export { default as HasRole } from './HRCReadfunctions/HasRole';
+export { default as GetAllActiveRecords } from './HRCReadfunctions/GetAllActiveRecords';
+export { default as GetAllRecordIds } from './HRCReadfunctions/GetAllRecordIDs';
+export { default as GetHealthRecord } from './HRCReadfunctions/GetHealthRecordIDs';
+export { default as IsPatient } from './HRCReadfunctions/IsPatient';
+export { default as HasPatientConsent } from './HRCReadfunctions/HasPatientConsent';
+export { default as GetRoleAdmin } from './HRCReadfunctions/GetRoleAdmin';
+export { default as GetRegisteredPatient } from './HRCReadfunctions/GetRegisteredPatient';
+export { default as GetRegisteredDoctor } from './HRCReadfunctions/GetRegisteredDoctor';
+export { default as GetPatientRecords } from './HRCReadfunctions/GetPatientRecords';
+export { default as RegisteredPatient } from './HRCReadfunctions/GetRegisteredPatient';
 
 // Healthcare Record Contracts - HRC Write functions
 export { default as RegisterPatients } from './HRCWritefunctions/RegisterPatients';
@@ -24,6 +36,7 @@ export { default as RenounceRole } from './HRCWritefunctions/RenounceRole';
 export { default as RemoveDoctor } from './HRCWritefunctions/RemoveDoctor';
 export { default as GiveConsent } from './HRCWritefunctions/GiveConsent';
 export { default as RevokeConsent } from './HRCWritefunctions/RevokeConsent';
+export { default as RevokeRole } from './HRCWritefunctions/RevokeRole';
 
 // Healthcare Record Contracts - HRC Events
 export { default as DoctorRegisteredListener } from './HRCevents/DoctorRegistered';

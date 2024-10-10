@@ -4,14 +4,17 @@ import {
   injected, metaMask,
   BlackCreateWalletButton, IdentityComponent, WalletComponents,
   AdminRole, RegisterPatients, AddDoctors, AddHealthRecord, DeactivateRecord, UpdateHealthRecord,
-  GrantRole, RenounceRole, RemoveDoctor, GiveConsent, RevokeConsent, 
+  GrantRole, RenounceRole, RemoveDoctor, GiveConsent, RevokeConsent, RevokeRole,
   DoctorRegisteredListener, GetAllDoctors, GetAllPatients, HasRole,
+  GetAllActiveRecords, GetAllRecordIds, GetHealthRecord, IsPatient, HasPatientConsent,
+  GetRoleAdmin, GetRegisteredPatient, GetRegisteredDoctor, GetPatientRecords, RegisteredPatient,
   CancelAppointment, ScheduleAppointment, UpdateAppointment,
   GetHealthcareRecordManagement, CheckTakenSlots, GetAppointmentDetails,
   AppointmentCancelledListener, AppointmentUpdatedListener, AppointmentScheduledListener,
   Appointments, GetDoctorAppointments, GetPatientAppointments, GetTotalAppointments,
-  PatientRegisteredListener
+  PatientRegisteredListener, DoctorsRole, PatientRole
 } from './exports';
+
 
 
 function App() {
@@ -112,6 +115,8 @@ function App() {
             <RenounceRole />
             <RemoveDoctor />
             <RevokeConsent />
+            <RevokeRole />
+
           </div>
         </div>
 
@@ -120,9 +125,21 @@ function App() {
           <h2 className="text-2xl font-bold mb-4">Read Functions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AdminRole />
+            <DoctorsRole />
+            <GetAllActiveRecords />
             <GetAllDoctors />
             <GetAllPatients />
+            <GetAllRecordIds />
+            <GetHealthRecord />
+            <GetPatientRecords />
+            <GetRegisteredDoctor />
+            <GetRegisteredPatient />
+            <GetRoleAdmin />
+            <HasPatientConsent />
             <HasRole />
+            <IsPatient />
+            <PatientRole />
+            <RegisteredPatient />
           </div>
         </div>
 
