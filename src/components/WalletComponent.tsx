@@ -10,7 +10,7 @@ import {
     Name,
     Identity,
   } from '@coinbase/onchainkit/identity';
-  import { color } from '@coinbase/onchainkit/theme';
+  // import { color } from '@coinbase/onchainkit/theme';
    
   export function WalletComponents({ address }: { address: string }) {
     return (

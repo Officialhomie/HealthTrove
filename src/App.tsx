@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
-  useAccount, useConnect, useDisconnect,
-  injected, metaMask,
-  BlackCreateWalletButton, IdentityComponent, WalletComponents,
+  useAccount, useConnect, useDisconnect, metaMask,
+  BlackCreateWalletButton, WalletComponents,
   AdminRole, RegisterPatients, AddDoctors, AddHealthRecord, DeactivateRecord, UpdateHealthRecord,
   GrantRole, RenounceRole, RemoveDoctor, GiveConsent, RevokeConsent, RevokeRole,
   DoctorRegisteredListener, GetAllDoctors, GetAllPatients, HasRole,
@@ -15,14 +14,15 @@ import {
   PatientRegisteredListener, DoctorsRole, PatientRole
 } from './exports';
 
-
+// IdentityComponent, injected
 
 function App() {
   const account = useAccount()
-  const { connectors, connect, status, error } = useConnect()
+  const { connect, error } = useConnect()
   const { disconnect } = useDisconnect()
   const [address, setAddress] = useState<string | undefined>(undefined)
 
+  // const { connectors, status } = useConnect()
   useEffect(() => {
     if(account.address) {
       setAddress(JSON.stringify(account.address))
