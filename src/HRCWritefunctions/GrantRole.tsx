@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { keccak256, toBytes, stringToHex } from 'viem';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const GrantRole = () => {
     const [roleType, setRoleType] = useState('');

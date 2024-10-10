@@ -9,7 +9,7 @@ const IdentityComponent = ({ address }: { address: string }) => {
         className="flex flex-col items-center bg-white dark:bg-gray-800 rounded-lg shadow-md p-6"
         >
         <Avatar className="w-24 h-24 rounded-full mb-4 border-4 border-indigo-500" />
-        <Name className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+        <Name className="text-2xl font-bold text-blue-800 dark:text-white mb-2">
             <Badge className="ml-2 px-2 py-1 bg-indigo-100 text-indigo-800 text-sm rounded-full" />
         </Name>
         <Address className="text-sm text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full" />
@@ -19,3 +19,5 @@ const IdentityComponent = ({ address }: { address: string }) => {
 }
 
 export default IdentityComponent
+
+

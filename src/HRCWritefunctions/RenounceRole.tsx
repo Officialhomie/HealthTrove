@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
 import { keccak256, toBytes } from 'viem';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const RenounceRole = () => {
     const [roleType, setRoleType] = useState('');

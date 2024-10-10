@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useWriteContract, useTransaction, useReadContract } from 'wagmi';
 import { formatEther } from 'viem';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const RegisterPatients = () => {
     const [ailment, setAilment] = useState('');

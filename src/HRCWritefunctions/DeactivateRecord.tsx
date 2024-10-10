@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const DeactivateRecord = () => {
     const [recordId, setRecordId] = useState('');

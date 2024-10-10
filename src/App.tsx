@@ -1,30 +1,30 @@
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
-import { injected, metaMask } from 'wagmi/connectors'
-import { BlackCreateWalletButton } from './components/BlackCreateWalletButton'
-import IdentityComponent from './components/BaseNames'
-import { WalletComponents } from './components/WalletComponent'
-import AdminRole from './HRCReadfunctions/AdminRole'
-import RegisterPatients from './HRCWritefunctions/RegisterPatients'
-import AddDoctors from './HRCWritefunctions/AddDoctors'
-import AddHealthRecord from './HRCWritefunctions/AddHealthRecord'
-import DeactivateRecord from './HRCWritefunctions/DeactivateRecord'
-import UpdateHealthRecord from './HRCWritefunctions/UpdateHealthRecord'
-import GrantRole from './HRCWritefunctions/GrantRole'
-import RenounceRole from './HRCWritefunctions/RenounceRole'
-import RemoveDoctor from './HRCWritefunctions/RemoveDoctor'
-import GiveConsent from './HRCWritefunctions/GiveConsent'
-import RevokeConsent from './HRCWritefunctions/RevokeConsent'
-import DoctorRegisteredListener from './events/DoctorRegistered'
-import GetAllDoctors from './HRCReadfunctions/GetAllDoctors'
-import FetchPastEvent from './HRCReadfunctions/FetchPastEvent'
-import PatientRegisteredListener from './events/PatientRegistered'
-import GetAllPatients from './HRCReadfunctions/GetAllPatients'
-import HasRole from './HRCReadfunctions/HasRole'
+import { useEffect, useState } from 'react';
+import {
+  useAccount, useConnect, useDisconnect,
+  injected, metaMask,
+  BlackCreateWalletButton, IdentityComponent, WalletComponents,
+  AdminRole, RegisterPatients, AddDoctors, AddHealthRecord, DeactivateRecord, UpdateHealthRecord,
+  GrantRole, RenounceRole, RemoveDoctor, GiveConsent, RevokeConsent, 
+  DoctorRegisteredListener, GetAllDoctors, GetAllPatients, HasRole,
+  CancelAppointment, ScheduleAppointment, UpdateAppointment,
+  GetHealthcareRecordManagement, CheckTakenSlots, GetAppointmentDetails,
+  AppointmentCancelledListener, AppointmentUpdatedListener, AppointmentScheduledListener,
+  Appointments, GetDoctorAppointments, GetPatientAppointments, GetTotalAppointments,
+  PatientRegisteredListener
+} from './exports';
+
 
 function App() {
   const account = useAccount()
   const { connectors, connect, status, error } = useConnect()
   const { disconnect } = useDisconnect()
+  const [address, setAddress] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    if(account.address) {
+      setAddress(JSON.stringify(account.address))
+    }
+  }, [account.address])
 
   return (
     <div className="container mx-auto p-4">
@@ -93,7 +93,7 @@ function App() {
             Connect
           </button>
           
-          <WalletComponents />
+          <WalletComponents address={address ?? ''} />
         </div>
       </div>
 
@@ -133,6 +133,40 @@ function App() {
             <DoctorRegisteredListener />
             <PatientRegisteredListener />
             {/* <FetchPastEvent /> */}
+          </div>
+        </div>
+
+        {/* SS Write Functions */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">SS Write Functions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <CancelAppointment />
+            <ScheduleAppointment />
+            <UpdateAppointment />
+          </div>
+        </div>  
+
+        {/* SS Read Functions */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">SS Read Functions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <GetAppointmentDetails />
+            <GetHealthcareRecordManagement />
+            <CheckTakenSlots />
+            <Appointments />
+            <GetDoctorAppointments />
+            <GetPatientAppointments />
+            <GetTotalAppointments />
+          </div>
+        </div>  
+
+        {/* SS Events */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">SS Events</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AppointmentScheduledListener />
+            <AppointmentUpdatedListener />
+            <AppointmentCancelledListener />
           </div>
         </div>
       </div>

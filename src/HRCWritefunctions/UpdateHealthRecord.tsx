@@ -75,7 +75,7 @@
 
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const UpdateHealthRecord = () => {
     const [recordId, setRecordId] = useState('');

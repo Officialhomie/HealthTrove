@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useWatchContractEvent } from 'wagmi';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 import { Log } from 'viem';
 

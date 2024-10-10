@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useReadContract } from 'wagmi';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const GetAllDoctors = () => {
     const [doctors, setDoctors] = useState<string[]>([]);

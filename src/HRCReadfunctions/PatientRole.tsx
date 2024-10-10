@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useReadContract } from 'wagmi';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const PatientRole = () => {
     const [walletAddress, setWalletAddress] = useState('');

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { isAddress } from 'viem';
-import contractHRC from '../contracts';
+import { contractHRC } from '../contracts';
 
 const RevokeConsent = () => {
     const [doctorAddress, setDoctorAddress] = useState('');
