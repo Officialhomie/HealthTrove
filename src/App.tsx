@@ -201,12 +201,11 @@ function App() {
             </Link>
           </div>
         </div>
-
-        <div className="text-center">
+        <div className="flex items-center justify-center text-center my-8">
           <BlackCreateWalletButton />
           <button
             onClick={() => connect({ connector: metaMask() })}
-            className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="ml-4 pb-3 bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:scale-105"
           >
             Use MetaMask
           </button>
