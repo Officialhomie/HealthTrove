@@ -1,194 +1,251 @@
-import { useEffect, useState } from 'react';
+// import { useAccount, useConnect, useDisconnect } from 'wagmi';
+// import {
+//   RegisterPatients, AddDoctors, AddHealthRecord, DeactivateRecord, UpdateHealthRecord,
+//   GrantRole, RevokeRole, GiveConsent, RevokeConsent,
+//   DoctorRegisteredListener, GetAllDoctors, GetAllPatients,
+//   GetHealthRecord, HasPatientConsent,
+//   GetRegisteredDoctor, GetRegisteredPatient, GetPatientRecords,
+//   CancelAppointment, ScheduleAppointment, UpdateAppointment,
+//   AppointmentCancelledListener, AppointmentUpdatedListener, AppointmentScheduledListener,
+//   AdminRole, DoctorsRole, PatientRole,
+//   BlackCreateWalletButton,
+//   WalletComponents,
+//   PatientRegisteredListener,
+//   metaMask
+// } from './exports';
+
+// function App() {
+//   const { address } = useAccount();
+//   const { connect } = useConnect();
+//   const { disconnect } = useDisconnect();
+
+//   const handleDisconnect = () => {
+//     disconnect();
+//     console.log('Wallet disconnected');
+//   }
+
+//   return (
+//     <div className="container mx-auto p-4">
+//         <div className="flex items-center justify-end space-x-4 mb-4">
+//           {/* create wallet button */}
+//           <BlackCreateWalletButton />
+          
+//           {/* connect metamask button */}
+//           <button
+//             onClick={() => {
+//               if (address) {
+//                 handleDisconnect();
+//               } else {
+//                 connect({ connector: metaMask() });
+//               }
+//             }}
+//             className="flex items-center space-x-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-semibold text-lg py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+//           >
+//             {address ? 'Disconnect Wallet' : 'Connect Metamask'}
+//           </button>
+          
+//           {/* wallet components */}
+//           <WalletComponents />
+//         </div>
+
+//       <div className="container mx-auto p-8 bg-gray-100 rounded-lg shadow-lg">
+//         {/* Admin Controls */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Admin Controls</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <RegisterPatients />
+//             <AddDoctors />
+//             <GrantRole />
+//             <RevokeRole />
+//           </div>
+//         </div>
+
+//         {/* Doctor and Patient Management */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Doctor and Patient Management</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <GetAllDoctors />
+//             <GetAllPatients />
+//             <GetRegisteredDoctor />
+//             <GetRegisteredPatient />
+//           </div>
+//         </div>
+
+//         {/* Appointment Scheduling */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Appointment Scheduling</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <ScheduleAppointment />
+//             <UpdateAppointment />
+//             <CancelAppointment />
+//           </div>
+//         </div>
+
+//         {/* Appointment Events */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Appointment Events</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <AppointmentScheduledListener />
+//             <AppointmentUpdatedListener />
+//             <AppointmentCancelledListener />
+//           </div>
+//         </div>
+
+//         {/* Healthcare Records Management */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Healthcare Records Management</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <AddHealthRecord />
+//             <UpdateHealthRecord />
+//             <DeactivateRecord />
+//             <GetHealthRecord />
+//             <GetPatientRecords />
+//           </div>
+//         </div>
+
+//         {/* Consent Management */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Consent Management</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <GiveConsent />
+//             <RevokeConsent />
+//             <HasPatientConsent />
+//           </div>
+//         </div>
+
+//         {/* Event Listeners */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Event Listeners</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <DoctorRegisteredListener />
+//             <PatientRegisteredListener />
+//           </div>
+//         </div>
+
+//         {/* Role Management */}
+//         <div className="mb-12">
+//           <h2 className="text-3xl font-extrabold mb-6 text-indigo-700 border-b-4 border-indigo-500 pb-2">Role Management</h2>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+//             <AdminRole />
+//             <DoctorsRole />
+//             <PatientRole />
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default App
+
+
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import {
-  useAccount, useConnect, useDisconnect, metaMask,
-  BlackCreateWalletButton, WalletComponents,
-  AdminRole, RegisterPatients, AddDoctors, AddHealthRecord, DeactivateRecord, UpdateHealthRecord,
-  GrantRole, RenounceRole, RemoveDoctor, GiveConsent, RevokeConsent, RevokeRole,
-  DoctorRegisteredListener, GetAllDoctors, GetAllPatients, HasRole,
-  GetAllActiveRecords, GetAllRecordIds, GetHealthRecord, IsPatient, HasPatientConsent,
-  GetRoleAdmin, GetRegisteredPatient, GetRegisteredDoctor, GetPatientRecords, RegisteredPatient,
-  CancelAppointment, ScheduleAppointment, UpdateAppointment,
-  GetHealthcareRecordManagement, CheckTakenSlots, GetAppointmentDetails,
-  AppointmentCancelledListener, AppointmentUpdatedListener, AppointmentScheduledListener,
-  Appointments, GetDoctorAppointments, GetPatientAppointments, GetTotalAppointments,
-  PatientRegisteredListener, DoctorsRole, PatientRole
+  BlackCreateWalletButton,
+  WalletComponents,
+  metaMask
 } from './exports';
 
-// IdentityComponent, injected
+// Import role-specific components (to be created)
+import PatientDashboard from './components/PatientDashboard';
+import DoctorDashboard from './components/DoctorDashboard';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
-  const account = useAccount()
-  const { connect, error } = useConnect()
-  const { disconnect } = useDisconnect()
-  const [address, setAddress] = useState<string | undefined>(undefined)
+  const { address } = useAccount();
+  const { connect } = useConnect();
+  const { disconnect } = useDisconnect();
 
-  // const { connectors, status } = useConnect()
-  useEffect(() => {
-    if(account.address) {
-      setAddress(JSON.stringify(account.address))
-    }
-  }, [account.address])
+  const handleDisconnect = () => {
+    disconnect();
+    console.log('Wallet disconnected');
+  };
 
-  return (
-    <div className="container mx-auto p-4">
-      <div className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/3 mb-8 md:mb-0">
-          {/* <IdentityComponent address={account.address ?? ''} /> */}
+  const renderLandingPage = () => (
+    <div className="container mx-auto p-8">
+      <header className="bg-gradient-to-r from-teal-500 to-green-600 text-white py-6 px-4 rounded-lg shadow-lg mb-8">
+        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4 md:mb-0 text-center md:text-left">
+            Blockchain-Based Healthcare Management System
+          </h1>
+          <nav className="flex space-x-6">
+            <a href="#about" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">About</a>
+            <a href="#how-it-works" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">How It Works</a>
+            <a href="#faq" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">FAQ</a>
+          </nav>
         </div>
-        <div className="w-full md:w-2/3 md:pl-8">
-          <div className="mb-12 space-y-8">
-            <h2 className="text-5xl font-bold mb-8 text-indigo-600 dark:text-indigo-400">Account</h2>
-            
-            <div className="mb-8">
-              <BlackCreateWalletButton />
-            </div>
+      </header>
 
-            <div className="bg-indigo-100 dark:bg-indigo-900 p-8 rounded-lg shadow-md space-y-6">
-              <p className="text-xl">
-                <span className="font-semibold text-indigo-700 dark:text-indigo-300 mr-3">Status:</span>
-                <span className="text-gray-800 dark:text-gray-200">{account.status}</span>
-              </p>
-              <p className="text-xl">
-                <span className="font-semibold text-indigo-700 dark:text-indigo-300 mr-3">Addresses:</span>
-                <span className="text-gray-800 dark:text-gray-200 break-all">{JSON.stringify(account.addresses)}</span>
-              </p>
-              <p className="text-xl">
-                <span className="font-semibold text-indigo-700 dark:text-indigo-300 mr-3">Chain ID:</span>
-                <span className="text-gray-800 dark:text-gray-200">{account.chainId}</span>
-              </p>
-            </div>
-
-            {account.status === 'connected' && (
-              <div className="mt-8">
-                <button
-                  type="button"
-                  onClick={() => disconnect()}
-                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out"
-                >
-                  Disconnect
-                </button>
-              </div>
-            )}
+      <main>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="border p-4 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-2 text-gray-800">Patient</h2>
+            <p className="text-gray-600 mb-4">Schedule appointments and manage your health records.</p>
+            <Link to="/patient" className="mt-4 inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Go to Patient Dashboard
+            </Link>
           </div>
-          
-          <div>
-            {/* <h2 className="text-2xl font-bold mb-4 text-green-500">Connect</h2> */}
-            {/* <div className="flex flex-wrap gap-4 mb-6">
-              {connectors.map((connector) => (
-                <button
-                  key={connector.uid}
-                  onClick={() => connect({ connector })}
-                  type="button"
-                  className="bg-indigo-500 hover:bg-indigo-700 text-yellow font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                >
-                  {connector.name}
-                </button>
-              ))}
-            </div> */}
-            {/* <div className="text-gray-700 mb-2">{status}</div> */}
-            {error && <div className="text-red-500">{error.message}</div>}
+          <div className="border p-4 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-2 text-gray-800">Doctor</h2>
+            <p className="text-gray-600 mb-4">Manage appointments and update health records.</p>
+            <Link to="/doctor" className="mt-4 inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+              Go to Doctor Dashboard
+            </Link>
           </div>
+          <div className="border p-4 rounded shadow-lg">
+            <h2 className="text-xl font-bold mb-2 text-gray-800">Admin</h2>
+            <p className="text-gray-600 mb-4">Register doctors, manage system roles.</p>
+            <Link to="/admin" className="mt-4 inline-block bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+              Go to Admin Dashboard
+            </Link>
+          </div>
+        </div>
 
+        <div className="text-center">
+          <BlackCreateWalletButton />
           <button
             onClick={() => connect({ connector: metaMask() })}
-            className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            className="ml-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Connect
+            Use MetaMask
           </button>
-          
-          <WalletComponents address={address ?? ''} />
         </div>
-      </div>
+      </main>
 
-      <div className="grid gap-8">
-        {/* Write Functions */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Write Functions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <RegisterPatients />
-            <AddDoctors />
-            <AddHealthRecord />
-            <DeactivateRecord />
-            <UpdateHealthRecord />
-            <GiveConsent />
-            <GrantRole />
-            <RenounceRole />
-            <RemoveDoctor />
-            <RevokeConsent />
-            <RevokeRole />
-
-          </div>
-        </div>
-
-        {/* Read Functions */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Read Functions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AdminRole />
-            <DoctorsRole />
-            <GetAllActiveRecords />
-            <GetAllDoctors />
-            <GetAllPatients />
-            <GetAllRecordIds />
-            <GetHealthRecord />
-            <GetPatientRecords />
-            <GetRegisteredDoctor />
-            <GetRegisteredPatient />
-            <GetRoleAdmin />
-            <HasPatientConsent />
-            <HasRole />
-            <IsPatient />
-            <PatientRole />
-            <RegisteredPatient />
-          </div>
-        </div>
-
-        {/* Events */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Events</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <DoctorRegisteredListener />
-            <PatientRegisteredListener />
-            {/* <FetchPastEvent /> */}
-          </div>
-        </div>
-
-        {/* SS Write Functions */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">SS Write Functions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <CancelAppointment />
-            <ScheduleAppointment />
-            <UpdateAppointment />
-          </div>
-        </div>  
-
-        {/* SS Read Functions */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">SS Read Functions</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <GetAppointmentDetails />
-            <GetHealthcareRecordManagement />
-            <CheckTakenSlots />
-            <Appointments />
-            <GetDoctorAppointments />
-            <GetPatientAppointments />
-            <GetTotalAppointments />
-          </div>
-        </div>  
-
-        {/* SS Events */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">SS Events</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <AppointmentScheduledListener />
-            <AppointmentUpdatedListener />
-            <AppointmentCancelledListener />
-          </div>
-        </div>
-      </div>
+      <footer className="mt-8 text-center text-sm text-gray-600">
+        <p>Contact: support@healthcare-blockchain.com</p>
+        <p>
+          <a href="#privacy" className="mr-4">Privacy Policy</a>
+          <a href="#terms">Terms of Service</a>
+        </p>
+      </footer>
     </div>
-  )
+  );
+
+  return (
+    <Router>
+      <div>
+        <div className="flex justify-end p-4">
+          <WalletComponents />
+          {address && (
+            <button
+              onClick={handleDisconnect}
+              className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Disconnect Wallet
+            </button>
+          )}
+        </div>
+        <Routes>
+          <Route path="/" element={address ? renderLandingPage() : renderLandingPage()} />
+          <Route path="/patient" element={<PatientDashboard />} />
+          <Route path="/doctor" element={<DoctorDashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
