@@ -36,7 +36,9 @@ const RegisterPatients = () => {
 
     useEffect(() => {
         if (walletData) {
-            setRegistrationWallet(walletData.toString());
+            // Truncate the wallet address for display
+            const truncatedWallet = `${walletData.toString().substring(0, 6)}...${walletData.toString().substring(walletData.toString().length - 4)}`;
+            setRegistrationWallet(truncatedWallet);
         }
     }, [walletData]);
 

@@ -19,9 +19,13 @@ const IsPatient = () => {
             setIsPatient(null);
         } else if (data !== undefined) {
             setIsPatient(data as boolean);
-            setFetchStatus(`Patient status check completed for Address: ${address}`);
+            // Truncate address for mobile screen view
+            const truncatedAddress = `${address?.substring(0, 6)}...${address?.substring(address.length - 4)}`;
+            setFetchStatus(`Patient status check completed for Address: ${truncatedAddress}`);
         } else if (isError) {
-            setFetchStatus(`Failed to check patient status for Address: ${address}`);
+            // Truncate address for mobile screen view
+            const truncatedAddress = `${address?.substring(0, 6)}...${address?.substring(address.length - 4)}`;
+            setFetchStatus(`Failed to check patient status for Address: ${truncatedAddress}`);
         }
     }, [data, isConnected, address, isError]);
 
@@ -38,8 +42,8 @@ const IsPatient = () => {
                     <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Patient Status:</h3>
                     <p className={`text-lg ${isPatient ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                         {isPatient ? 
-                        (`👍 Address ${address} is a registered patient.`) : 
-                        (`🚫 Address ${address} is not a registered patient.`)}
+                        (`👍 Address ${address?.substring(0, 6)}...${address?.substring(address.length - 4)} is a registered patient.`) : 
+                        (`🚫 Address ${address?.substring(0, 6)}...${address?.substring(address.length - 4)} is not a registered patient.`)}
                     </p>
                 </div>
             )}
