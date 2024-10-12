@@ -1,20 +1,26 @@
 import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
-import {
- 
-} from '../exports';
+import { useNavigate } from 'react-router-dom';
 import { contractHRC } from '../contracts';
-import { Link } from 'react-router-dom';
 
 const AdminDashboard = () => {
   const { address } = useAccount();
   const [walletAddress, setWalletAddress] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (address) {
       setWalletAddress(address);
     }
   }, [address]);
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
+  const handleGoHome = () => {
+    navigate('/');
+  };
 
   // Check if wallet is connected
   if (!address) {
@@ -26,6 +32,7 @@ const AdminDashboard = () => {
             Please connect your wallet to access the admin dashboard.
           </p>
         </div>
+        {renderNavigationButtons()}
       </div>
     );
   }
@@ -65,14 +72,7 @@ const AdminDashboard = () => {
             You can explore other features on our app.
           </p>
         </div>
-        <div className="mt-8 text-center">
-          <Link
-            to="/"
-            className="inline-block bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            Go to Main Page
-          </Link>
-        </div>
+        {renderNavigationButtons()}
       </div>
     );
   }
@@ -84,8 +84,28 @@ const AdminDashboard = () => {
         Welcome, Administrator
       </h1>
       {/* ... rest of the admin dashboard content ... */}
+      {renderNavigationButtons()}
     </div>
   );
+
+  function renderNavigationButtons() {
+    return (
+      <div className="mt-8 text-center">
+        <button
+          onClick={handleGoBack}
+          className="inline-block bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 mr-4"
+        >
+          Go Back
+        </button>
+        <button
+          onClick={handleGoHome}
+          className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
+        >
+          Go to Home Page
+        </button>
+      </div>
+    );
+  }
 }
 
 export default AdminDashboard;

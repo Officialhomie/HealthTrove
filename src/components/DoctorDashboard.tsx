@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { contractHRC } from '../contracts';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const DoctorDashboard = () => {
+  const navigate = useNavigate();
   const { address } = useAccount();
   const [walletAddress, setWalletAddress] = useState('');
   const [hasRole, setHasRole] = useState<boolean | null>(null);
@@ -37,6 +38,10 @@ const DoctorDashboard = () => {
 
   const handleCheckRole = async () => {
     await refetch();
+  };
+
+  const handleGoBack = () => {
+    navigate('/');
   };
 
   if (isRoleLoading || isCheckLoading) return <div>Loading...</div>;
@@ -78,12 +83,12 @@ const DoctorDashboard = () => {
       )}
 
       <div className="flex justify-center">
-        <Link
-          to="/"
+        <button
+          onClick={handleGoBack}
           className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
         >
-          Back to Home
-        </Link>
+          Back to Previous Page
+        </button>
       </div>
     </div>
   );
