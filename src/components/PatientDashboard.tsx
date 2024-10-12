@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Appointments, CheckTakenSlots, GetAllDoctors, IsPatient, RegisterPatients, ScheduleAppointment } from '../exports';
+import { useNavigate } from 'react-router-dom';
 
 const PatientDashboard: React.FC = () => {
   const [showDoctors, setShowDoctors] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-10 px-4">
@@ -28,14 +30,12 @@ const PatientDashboard: React.FC = () => {
           {showDoctors && <GetAllDoctors />}
         </div>
 
-
-        {/* <GetAllDoctors /> */}
-
-
-
-
-
-
+        <button 
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => navigate('/')}
+        >
+          Go Back to Home
+        </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Schedule Appointment Section */}
@@ -61,7 +61,7 @@ const PatientDashboard: React.FC = () => {
 
         {/* Appointments List Section */}
         <div className="mt-12">
-          <div className="p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg">
+          <div className="p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg items-start">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
               My Appointments
             </h2>
@@ -69,6 +69,60 @@ const PatientDashboard: React.FC = () => {
           </div>
         </div>
       </div>
+      <footer className="bg-gray-200 dark:bg-gray-800 mt-10 py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col lg:flex-row justify-between items-center">
+            {/* Copyright Section */}
+            <div className="text-center lg:text-left mb-4 lg:mb-0">
+              <p className="text-gray-700 dark:text-gray-300">
+                &copy; {new Date().getFullYear()} Healthcare On-chain. All rights reserved.
+              </p>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="flex space-x-4 mb-4 lg:mb-0">
+              <a href="/about" className="text-gray-700 dark:text-gray-300 hover:underline">
+                About
+              </a>
+              <a href="/contact" className="text-gray-700 dark:text-gray-300 hover:underline">
+                Contact
+              </a>
+              <a href="/privacy" className="text-gray-700 dark:text-gray-300 hover:underline">
+                Privacy Policy
+              </a>
+            </div>
+
+            {/* Social Media Icons */}
+            <div className="flex space-x-4">
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-500"
+              >
+                <i className="fab fa-twitter"></i>
+              </a>
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-600"
+              >
+                <i className="fab fa-facebook"></i>
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-700"
+              >
+                <i className="fab fa-linkedin"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 };

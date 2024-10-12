@@ -48,8 +48,8 @@ const GetAppointment = () => {
     }, [shouldFetch, data, isLoading, isError]);
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Get Appointment by Index</h2>
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-full mx-auto">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Get Appointment by Number</h2>
             <div className="mb-4">
                 <input
                     type="number"
