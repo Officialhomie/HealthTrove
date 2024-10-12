@@ -35,6 +35,9 @@ const GrantRole = () => {
                 args: [roleHash, accountAddress],
             });
             setGrantStatus('Role grant request sent');
+            // Clear input fields after successful query
+            setRoleType('');
+            setAccountAddress('');
         } catch (error) {
             console.error('Error granting role:', error);
             setGrantStatus('Error granting role');

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useReadContract } from 'wagmi';
 import { contractSS } from '../contracts';
 
@@ -14,25 +14,38 @@ const GetAppointment = () => {
     const [appointmentIndex, setAppointmentIndex] = useState('');
     const [appointmentData, setAppointmentData] = useState<Appointment | null>(null);
     const [fetchStatus, setFetchStatus] = useState('');
+    const [shouldFetch, setShouldFetch] = useState(false);
 
     const { data, isError, isLoading } = useReadContract({
         ...contractSS,
         functionName: 'appointments',
-        args: [BigInt(appointmentIndex || '0')],
+        args: shouldFetch ? [BigInt(appointmentIndex)] : undefined,
         address: contractSS.address as `0x${string}`,
     });
 
     const handleFetchAppointment = () => {
-        if (data) {
-            setAppointmentData(data as Appointment);
-            setFetchStatus('Appointment fetched successfully');
-        } else {
-            setFetchStatus('No appointment found or error fetching data');
+        if (!appointmentIndex) {
+            setFetchStatus('Please enter a valid appointment index');
+            return;
         }
+        setFetchStatus('Fetching appointment...');
+        setShouldFetch(true);
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error fetching appointment</div>;
+    useEffect(() => {
+        if (shouldFetch) {
+            if (isLoading) {
+                setFetchStatus('Loading...');
+            } else if (isError) {
+                setFetchStatus('Error fetching appointment');
+                setShouldFetch(false);
+            } else if (data) {
+                setAppointmentData(data as Appointment);
+                setFetchStatus('Appointment fetched successfully');
+                setShouldFetch(false);
+            }
+        }
+    }, [shouldFetch, data, isLoading, isError]);
 
     return (
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">

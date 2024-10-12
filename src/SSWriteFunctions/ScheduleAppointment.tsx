@@ -69,21 +69,21 @@ const ScheduleAppointment: React.FC = () => {
     maxDate.setDate(maxDate.getDate() + maxFutureDays);
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Schedule Appointment</h2>
-            <form onSubmit={(e) => { e.preventDefault(); handleScheduleAppointment(); }}>
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Schedule Appointment</h2>
+            <form onSubmit={(e) => { e.preventDefault(); handleScheduleAppointment(); }} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div 
                     className="mb-4"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <label htmlFor="doctorAddress" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Doctor Address:</label>
+                    <label htmlFor="doctorAddress" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Doctor Address:</label>
                     <input
                         type="text"
                         id="doctorAddress"
                         value={doctorAddress}
                         onChange={(e) => setDoctorAddress(e.target.value)}
-                        className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                        className="w-full px-4 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                         required
                     />
                 </motion.div>
@@ -92,7 +92,7 @@ const ScheduleAppointment: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <label htmlFor="dateTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date and Time:</label>
+                    <label htmlFor="dateTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date and Time:</label>
                     <input
                         type="datetime-local"
                         id="dateTime"
@@ -100,24 +100,25 @@ const ScheduleAppointment: React.FC = () => {
                         onChange={(e) => setDateTime(e.target.value)}
                         min={new Date().toISOString().slice(0, 16)}
                         max={maxDate.toISOString().slice(0, 16)}
-                        className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                        className="w-full px-4 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                         required
                     />
-                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                         You can book up to {maxFutureDays} days in advance.
                     </p>
                 </motion.div>
                 <motion.div 
-                    className="mb-4"
+                    className="mb-4 md:col-span-2"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <label htmlFor="details" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Treatment Details:</label>
+                    <label htmlFor="details" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Treatment Details:</label>
                     <textarea
                         id="details"
                         value={details}
                         onChange={(e) => setDetails(e.target.value)}
-                        className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                        className="w-full px-4 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                        rows={4}
                         required
                     />
                 </motion.div>
@@ -126,7 +127,7 @@ const ScheduleAppointment: React.FC = () => {
                     disabled={isPending || isLoading}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="md:col-span-2 w-full bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-lg font-semibold"
                 >
                     Schedule Appointment
                 </motion.button>

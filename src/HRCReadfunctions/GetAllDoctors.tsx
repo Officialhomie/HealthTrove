@@ -40,7 +40,7 @@ const GetAllDoctors = () => {
     if (isError) return <div>Error fetching doctors</div>;
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-full mx-auto w-full md:max-w-md mb-9">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Get All Doctors</h2>
             <button
                 onClick={handleToggleDoctors}

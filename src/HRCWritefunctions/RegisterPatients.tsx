@@ -56,7 +56,7 @@ const RegisterPatients = () => {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-4xl mx-auto w-full md:max-w-full mb-9">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Request Patient Registration</h2>
             <div className="mb-4">
                 <input

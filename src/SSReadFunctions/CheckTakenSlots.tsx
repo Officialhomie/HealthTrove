@@ -18,6 +18,11 @@ const CheckTakenSlots = () => {
         if (data !== undefined) {
             setIsTaken(data as boolean);
             setFetchStatus('Slot status fetched successfully');
+            // Reset fetch status and input boxes after query
+            setTimeout(() => {
+                setFetchStatus('');
+                setSlotId('');
+            }, 2000);
         } else {
             setFetchStatus('Error fetching slot status');
         }
