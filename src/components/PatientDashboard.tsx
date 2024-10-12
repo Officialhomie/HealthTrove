@@ -14,9 +14,8 @@ const PatientDashboard: React.FC = () => {
         <RegisterPatients />
 
         <IsPatient />
-
        
-        <div className="bg-white my-10 p-10">
+        <div className="bg-gray-100 dark:bg-gray-900 my-10 p-10">
           <h1 className="text-2xl font-bold mb-4">Want to see a list of Available doctors?</h1>
 
           <button 
