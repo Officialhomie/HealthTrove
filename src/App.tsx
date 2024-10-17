@@ -230,7 +230,7 @@ function App() {
           {address && (
             <button
               onClick={handleDisconnect}
-              className="ml-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-[3px] md:py-3 px-2 md:px-4 rounded md:ml-4 text-sm"
             >
               Disconnect Wallet
             </button>

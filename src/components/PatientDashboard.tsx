@@ -37,7 +37,8 @@ const PatientDashboard: React.FC = () => {
           Go Back to Home
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-8"> */}
+        <div className='flex flex-col gap-8'>
           {/* Schedule Appointment Section */}
           <div className="lg:col-span-2">
             <div className="p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg">

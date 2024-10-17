@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { contractHRC } from '../contracts';
-import { GrantRole } from '../exports';
+import { AddDoctors, GetAllDoctors, GetAllPatients, GrantRole } from '../exports';
+import ApprovePatientRegistration from '../HRCWritefunctions/ApprovePatientRegistration';
 
 const AdminDashboard = () => {
   const { address } = useAccount();
@@ -84,7 +85,23 @@ const AdminDashboard = () => {
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
         Welcome, Administrator
       </h1>
-      <GrantRole />
+      {/* <GrantRole /> */}
+      <ApprovePatientRegistration />
+      <AddDoctors />
+
+      
+      <h2 className="text-4xl font-black mt-[100px] mb-[50px] text-center text-gray-800">Manage Users</h2>
+      <div className="flex justify-between border border-b-4 border-b-black py-[20px]">
+        <div className="flex-1">
+          <GetAllPatients />
+        </div>
+        <div className="flex-1 ml-4">
+          <GetAllDoctors />
+        </div>
+      </div>
+
+
+
       {/* ... rest of the admin dashboard content ... */}
       {renderNavigationButtons()}
     </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { contractHRC } from '../contracts';
 
@@ -25,14 +25,30 @@ const AddDoctors = () => {
             });
             console.log('Transaction hash:', result);
             setAdditionStatus('Doctor addition request sent. Transaction hash: ' + result);
+            // Clear input fields
+            setDoctorAddress('');
+            setDoctorName('');
+            setDoctorSpecialty('');
         } catch (error) {
             console.error('Error adding doctor:', error);
             setAdditionStatus('Error adding doctor');
         }
     };
 
+    useEffect(() => {
+        let timer: ReturnType<typeof setTimeout>;
+        if (additionStatus) {
+            // Set a timeout to clear the status after 7 seconds
+            timer = setTimeout(() => {
+                setAdditionStatus('');
+            }, 7000);
+        }
+        // Cleanup function to clear the timer if the component unmounts or additionStatus changes
+        return () => clearTimeout(timer);
+    }, [additionStatus]);
+
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-4xl mx-auto w-full md:max-w-full">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Add Doctor</h2>
             <div className="mb-4">
                 <input
@@ -72,5 +88,3 @@ const AddDoctors = () => {
 };
 
 export default AddDoctors;
-
-

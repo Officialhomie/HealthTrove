@@ -1,10 +1,24 @@
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { contractHRC } from '../contracts';
+import { create } from 'ipfs-http-client';
+
+// Set up IPFS client
+const projectId = import.meta.env.VITE_INFURA_PROJECT_ID;
+const apiSecretKey = import.meta.env.VITE_INFURA_API_SECRET_KEY;
+const auth = 'Basic ' + btoa(projectId + ':' + apiSecretKey);
+const client = create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+  headers: {
+    authorization: auth,
+  },
+});
 
 const AddHealthRecord = () => {
     const [patientAddress, setPatientAddress] = useState('');
-    const [ipfsHash, setIpfsHash] = useState('');
+    const [file, setFile] = useState<File | null>(null); // File state as File | null
     const [additionStatus, setAdditionStatus] = useState('');
 
     const { writeContract, data: hash, error, isPending } = useWriteContract();
@@ -14,8 +28,38 @@ const AddHealthRecord = () => {
             hash,
         });
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            setFile(e.target.files[0]); // Set file state
+        } else {
+            console.error('No file selected');
+        }
+    };
+
+    const uploadToIPFS = async (file: File) => {
+        if (!file) {
+            throw new Error('No file provided for upload');
+        }
+        try {
+            const added = await client.add(file);
+            console.log(`File uploaded to IPFS: https://ipfs.infura.io/ipfs/${added.path}`);
+            return added.path; // Return the IPFS hash
+        } catch (error) {
+            console.error('Error uploading file to IPFS:', error);
+            throw error;
+        }
+    };
+
     const handleAddHealthRecord = async () => {
         try {
+            if (!file) {
+                throw new Error('Please select a file to upload');
+            }
+
+            setAdditionStatus('Uploading file to IPFS...');
+            const ipfsHash = await uploadToIPFS(file);
+            setAdditionStatus('File uploaded to IPFS. Adding health record...');
+
             const result = await writeContract({
                 address: contractHRC.address as `0x${string}`,
                 abi: contractHRC.abi,
@@ -42,10 +86,8 @@ const AddHealthRecord = () => {
                     className="w-full px-3 py-2 mb-3 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                 />
                 <input
-                    type="text"
-                    value={ipfsHash}
-                    onChange={(e) => setIpfsHash(e.target.value)}
-                    placeholder="Enter IPFS hash"
+                    type="file"
+                    onChange={handleFileChange}
                     className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                 />
             </div>
