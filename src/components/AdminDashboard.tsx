@@ -91,11 +91,11 @@ const AdminDashboard = () => {
 
       
       <h2 className="text-4xl font-black mt-[100px] mb-[50px] text-center text-gray-800">Manage Users</h2>
-      <div className="flex justify-between border border-b-4 border-b-black py-[20px]">
+      <div className="flex flex-col md:flex-row justify-between border border-b-4 border-b-black py-[20px]">
         <div className="flex-1">
           <GetAllPatients />
         </div>
-        <div className="flex-1 ml-4">
+        <div className="flex-1 md:ml-4">
           <GetAllDoctors />
         </div>
       </div>
