@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { contractHRC } from '../contracts';
+import { AddHealthRecord } from '../exports';
 
 const DoctorDashboard = () => {
   const { address } = useAccount();
@@ -113,6 +114,8 @@ const DoctorDashboard = () => {
           <li>Update patient information</li>
           <li>Schedule appointments</li>
         </ul>
+
+        <AddHealthRecord />
         {/* Add doctor-specific functionality here */}
       </div>
 

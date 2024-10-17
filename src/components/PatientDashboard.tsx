@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Appointments, CheckTakenSlots, GetAllDoctors, IsPatient, RegisterPatients, ScheduleAppointment } from '../exports';
+import { Appointments, CheckTakenSlots, GetAllDoctors, GiveConsent, IsPatient, RegisterPatients, ScheduleAppointment } from '../exports';
 import { useNavigate } from 'react-router-dom';
 
 const PatientDashboard: React.FC = () => {
@@ -69,6 +69,8 @@ const PatientDashboard: React.FC = () => {
             <Appointments />
           </div>
         </div>
+
+        <GiveConsent />
       </div>
       <footer className="bg-gray-200 dark:bg-gray-800 mt-10 py-6">
         <div className="max-w-7xl mx-auto px-4">

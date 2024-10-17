@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { contractHRC } from '../contracts';
-import { AddDoctors, GetAllDoctors, GetAllPatients, GrantRole } from '../exports';
+import { AddDoctors, AddHealthRecord, GetAllDoctors, GetAllPatients } from '../exports';
 import ApprovePatientRegistration from '../HRCWritefunctions/ApprovePatientRegistration';
+import GetDoctorInfo from '../HRCReadfunctions/GetDoctorInfo';
 
 const AdminDashboard = () => {
   const { address } = useAccount();
@@ -85,7 +86,6 @@ const AdminDashboard = () => {
       <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
         Welcome, Administrator
       </h1>
-      {/* <GrantRole /> */}
       <ApprovePatientRegistration />
       <AddDoctors />
 
@@ -100,7 +100,14 @@ const AdminDashboard = () => {
         </div>
       </div>
 
+      <div className='mt-[50px]'>
+        <GetDoctorInfo />
+      </div>
 
+      <div className='mt-[70px]'>
+        <AddHealthRecord />
+      </div>
+  
 
       {/* ... rest of the admin dashboard content ... */}
       {renderNavigationButtons()}
