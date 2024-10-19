@@ -52,3 +52,5 @@ const IsPatient = () => {
 }
 
 export default IsPatient;
+
+
