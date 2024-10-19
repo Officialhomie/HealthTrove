@@ -22,10 +22,10 @@ const UpdateAppointment: React.FC = () => {
         address: contractSS.address as `0x${string}`,
     } as const);
 
-    const { data: patientStatus, isError: isPatientCheckError, isLoading: isPatientCheckLoading } = useReadContract({
+    const { data: patientStatus } = useReadContract({
         ...contractHRC,
         functionName: 'isPatient',
-        args: isConnected ? [address] : undefined,
+        args: [address as `0x${string}`],
         address: contractHRC.address as `0x${string}`,
     });
 
@@ -36,10 +36,12 @@ const UpdateAppointment: React.FC = () => {
     }, [maxDays]);
 
     useEffect(() => {
-        if (patientStatus !== undefined) {
+        if (isConnected && patientStatus !== undefined) {
             setIsPatient(patientStatus as boolean);
+        } else if (!isConnected) {
+            setIsPatient(null);
         }
-    }, [patientStatus]);
+    }, [isConnected, patientStatus]);
 
     const handleUpdateAppointment = async () => {
         if (!isConnected) {
@@ -52,14 +54,12 @@ const UpdateAppointment: React.FC = () => {
             return;
         }
 
-        if (isConnected && isPatient) {
-            writeContract({
-                address: contractSS.address as `0x${string}`,
-                abi: contractSS.abi,
-                functionName: 'updateAppointment',
-                args: [BigInt(appointmentId), BigInt(new Date(newDateTime).getTime() / 1000), details],
-            });
-        }
+        writeContract({
+            address: contractSS.address as `0x${string}`,
+            abi: contractSS.abi,
+            functionName: 'updateAppointment',
+            args: [BigInt(appointmentId), BigInt(new Date(newDateTime).getTime() / 1000), details],
+        });
     };
 
     useEffect(() => {
@@ -78,17 +78,18 @@ const UpdateAppointment: React.FC = () => {
     const maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + maxFutureDays);
 
-    if (isPatientCheckLoading) return <div>Checking patient status...</div>;
-    if (isPatientCheckError) return <div>Error checking patient status</div>;
-
     return (
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full mx-auto max-w-4xl md:max-w-6xl lg:max-w-full my-[70px]">
             <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Update Appointment</h2>
-            {isConnected && isPatient === false && (
+            {!isConnected ? (
+                <div className="mb-6 p-4 bg-yellow-100 border border-yellow-400 text-yellow-700 rounded-md">
+                    <p>Please connect your wallet to update an appointment.</p>
+                </div>
+            ) : isPatient === false ? (
                 <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md">
                     <p>You are not registered as a patient. Please register before updating an appointment.</p>
                 </div>
-            )}
+            ) : null}
             <form onSubmit={(e) => { e.preventDefault(); handleUpdateAppointment(); }} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div 
                     className="mb-4"
@@ -103,7 +104,7 @@ const UpdateAppointment: React.FC = () => {
                         onChange={(e) => setAppointmentId(e.target.value)}
                         className="w-full px-4 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                         required
-                        disabled={!isConnected || !isPatient}
+                        disabled={!isConnected || isPatient === false}
                     />
                 </motion.div>
                 <motion.div 
@@ -121,7 +122,7 @@ const UpdateAppointment: React.FC = () => {
                         max={maxDate.toISOString().slice(0, 16)}
                         className="w-full px-4 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                         required
-                        disabled={!isConnected || !isPatient}
+                        disabled={!isConnected || isPatient === false}
                     />
                     <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
                         You can reschedule up to {maxFutureDays} days in advance.
@@ -140,17 +141,17 @@ const UpdateAppointment: React.FC = () => {
                         className="w-full px-4 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                         rows={4}
                         required
-                        disabled={!isConnected || !isPatient}
+                        disabled={!isConnected || isPatient === false}
                     />
                 </motion.div>
                 <motion.button
                     type="submit"
-                    disabled={isPending || isLoading || !isConnected || !isPatient}
+                    disabled={isPending || isLoading || !isConnected || isPatient === false}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     className="md:col-span-2 w-full bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-lg font-semibold"
                 >
-                    Update Appointment
+                    {isConnected ? 'Update Appointment' : 'Connect Wallet'}
                 </motion.button>
             </form>
 
