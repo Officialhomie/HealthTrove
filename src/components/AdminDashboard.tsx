@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { contractHRC } from '../contracts';
-import { AddDoctors, AddHealthRecord, GetAllDoctors, GetAllPatients } from '../exports';
+import { AddDoctors, GetAllActiveRecords, GetAllDoctors, GetAllPatients, GetAllRecordIds } from '../exports';
 import ApprovePatientRegistration from '../HRCWritefunctions/ApprovePatientRegistration';
 import GetDoctorInfo from '../HRCReadfunctions/GetDoctorInfo';
 
@@ -91,11 +91,11 @@ const AdminDashboard = () => {
 
       
       <h2 className="text-4xl font-black mt-[100px] mb-[50px] text-center text-gray-800">Manage Users</h2>
-      <div className="flex flex-col md:flex-row justify-between border border-b-4 border-b-black py-[20px]">
+      <div className="flex flex-col lg:flex-row justify-between border border-b-4 border-b-black py-[20px]">
         <div className="flex-1">
           <GetAllPatients />
         </div>
-        <div className="flex-1 md:ml-4">
+        <div className="flex-1 lg:ml-4">
           <GetAllDoctors />
         </div>
       </div>
@@ -104,8 +104,16 @@ const AdminDashboard = () => {
         <GetDoctorInfo />
       </div>
 
-      <div className='mt-[70px]'>
+      {/* <div className='mt-[70px]'>
         <AddHealthRecord />
+      </div> */}
+
+      <div className='mt-[70px]'>
+        <GetAllActiveRecords />
+      </div>
+
+      <div className='mt-[70px]'>
+        <GetAllRecordIds />
       </div>
   
 

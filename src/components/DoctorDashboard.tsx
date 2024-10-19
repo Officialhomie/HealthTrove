@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { contractHRC } from '../contracts';
-import { AddHealthRecord } from '../exports';
+import { AddHealthRecord, DeactivateRecord, GetAllPatients, GetAllDoctors, UpdateHealthRecord, GetAllActiveRecords } from '../exports';
+import IPFSRetrieve from './IPFSRetrieve';
 
 const DoctorDashboard = () => {
   const { address } = useAccount();
@@ -116,6 +117,34 @@ const DoctorDashboard = () => {
         </ul>
 
         <AddHealthRecord />
+
+        <h2 className="text-4xl font-black mt-[100px] mb-[50px] text-center text-gray-800">Manage Users</h2>
+        <div className="flex flex-col lg:flex-row justify-between border-b-4 border-b-black py-[20px] mb-[100px]">
+          <div className="flex-1">
+            <GetAllPatients />
+          </div>
+          <div className="flex-1 lg:ml-4">
+            <GetAllDoctors />
+          </div>
+        </div>
+
+        <div className='mt-[70px]'>
+          <GetAllActiveRecords />
+        </div>
+
+        <div>
+          <UpdateHealthRecord />
+        </div>
+        
+        <div className='mt-[70px]'>
+          <DeactivateRecord />
+        </div>
+
+        <div className='mt-[70px]'>
+          <IPFSRetrieve  />
+        </div>
+
+
         {/* Add doctor-specific functionality here */}
       </div>
 

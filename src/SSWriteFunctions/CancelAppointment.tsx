@@ -59,7 +59,7 @@ const CancelAppointment: React.FC = () => {
     }, [isSuccess, error]);
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full mx-auto">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Cancel Your Appointment</h2>
             <input
                 type="number"

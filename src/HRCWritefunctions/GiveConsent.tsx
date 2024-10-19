@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import { useState, useEffect } from 'react';
+import { useWriteContract, useWaitForTransactionReceipt, useReadContract, useAccount } from 'wagmi';
 import { contractHRC } from '../contracts';
 
 const GiveConsent = () => {
     const [doctorAddress, setDoctorAddress] = useState('');
     const [consentStatus, setConsentStatus] = useState('');
+    const [isPatient, setIsPatient] = useState(false);
+    const { address, isConnected } = useAccount();
 
     const { writeContract, data: hash, error, isPending } = useWriteContract();
 
@@ -13,7 +15,30 @@ const GiveConsent = () => {
             hash,
         });
 
+    const { data: patientStatus, isError: isPatientCheckError, isLoading: isPatientCheckLoading } = useReadContract({
+        ...contractHRC,
+        functionName: 'isPatient',
+        args: isConnected ? [address] : undefined,
+        address: contractHRC.address as `0x${string}`,
+    });
+
+    useEffect(() => {
+        if (patientStatus !== undefined) {
+            setIsPatient(patientStatus as boolean);
+        }
+    }, [patientStatus]);
+
     const handleGiveConsent = async () => {
+        if (!isConnected) {
+            setConsentStatus('Please connect your wallet first.');
+            return;
+        }
+
+        if (!isPatient) {
+            setConsentStatus('Error: Register as a patient of our esteemed organization');
+            return;
+        }
+
         if (!doctorAddress || !/^0x[a-fA-F0-9]{40}$/.test(doctorAddress)) {
             setConsentStatus('Please enter a valid Ethereum address');
             return;
@@ -27,14 +52,26 @@ const GiveConsent = () => {
                 args: [doctorAddress],
             });
             setConsentStatus('Consent request sent');
+            
+            // Reset input fields and fetch statuses
+            setDoctorAddress(''); // Reset doctor address input
+            setConsentStatus(''); // Clear consent status message
+
+            // Set a timeout to clear the consent status message after 3 seconds
+            setTimeout(() => {
+                setConsentStatus(''); // Clear consent status message after timeout
+            }, 3000); // 3000 milliseconds = 3 seconds
         } catch (error) {
             console.error('Error giving consent:', error);
             setConsentStatus('Error giving consent');
         }
     };
 
+    if (isPatientCheckLoading) return <div>Checking patient status...</div>;
+    if (isPatientCheckError) return <div>Error checking patient status</div>;
+
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-full mx-auto">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Give Consent to Doctor</h2>
             <div className="mb-4">
                 <input
@@ -47,7 +84,7 @@ const GiveConsent = () => {
             </div>
             <button
                 onClick={handleGiveConsent}
-                disabled={isPending || isConfirming}
+                disabled={isPending || isConfirming || !isConnected || !isPatient}
                 className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {isPending ? 'Sending...' : isConfirming ? 'Confirming...' : 'Give Consent'}
@@ -55,6 +92,11 @@ const GiveConsent = () => {
             {isConfirmed && <p className="mt-4 text-lg text-center text-green-600">Consent given successfully!</p>}
             {error && <p className="mt-4 text-lg text-center text-red-600">Error: {error.message}</p>}
             {consentStatus && <p className="mt-4 text-lg text-center">{consentStatus}</p>}
+            {!isPatient && isConnected && (
+                <p className="mt-4 text-lg text-center text-red-600">
+                    You are not registered as a patient. Please register first.
+                </p>
+            )}
         </div>
     );
 };

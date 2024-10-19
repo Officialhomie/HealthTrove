@@ -72,28 +72,39 @@
 
 // export default UpdateHealthRecord;
 
-
 import { useState } from 'react';
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { contractHRC } from '../contracts';
+import IPFSUpload from '../components/IPFSUpload';
 
 const UpdateHealthRecord = () => {
     const [recordId, setRecordId] = useState('');
     const [newIpfsHash, setNewIpfsHash] = useState('');
     const [updateStatus, setUpdateStatus] = useState('');
+    const [isUploading, setIsUploading] = useState(false);
+    const [fileUploaded, setFileUploaded] = useState(false); // Added to track file upload status
 
-    // Prepare for the transaction using the write hook
     const { writeContract, data: transactionHash, error, isPending } = useWriteContract();
-
-    // Wait for the transaction confirmation
     const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
         hash: transactionHash,
     });
 
-    // Function to handle the health record update
+    const handleUploadSuccess = (hash: string) => {
+        setNewIpfsHash(hash);
+        setUpdateStatus('File uploaded successfully, ready to update health record.');
+        setIsUploading(false);
+        setFileUploaded(true); // Set fileUploaded to true on success
+    };
+
+    const handleUploadError = (error: string) => {
+        setUpdateStatus('Error uploading file: ' + error);
+        setIsUploading(false);
+        setFileUploaded(false); // Set fileUploaded to false on error
+    };
+
     const handleUpdateHealthRecord = async () => {
-        if (!recordId || !newIpfsHash) {
-            setUpdateStatus('Please provide a valid record ID and IPFS hash.');
+        if (!recordId || !newIpfsHash || !fileUploaded) { // Check if file has been uploaded successfully
+            setUpdateStatus('Please provide a valid record ID and upload a file.');
             return;
         }
 
@@ -102,18 +113,16 @@ const UpdateHealthRecord = () => {
                 address: contractHRC.address as `0x${string}`,
                 abi: contractHRC.abi,
                 functionName: 'updateHealthRecord',
-                args: [parseInt(recordId), newIpfsHash],  // Passing the recordId as a uint256
+                args: [parseInt(recordId), newIpfsHash],
             });
-            console.log('Transaction hash:', result);
             setUpdateStatus('Update request sent. Transaction hash: ' + result);
         } catch (err) {
-            console.error('Error updating health record:', err);
             setUpdateStatus('Error updating health record: ' + (err instanceof Error ? err.message : String(err)));
         }
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full mx-auto mt-[70px]">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Update Health Record</h2>
             <div className="mb-4">
                 <input
@@ -121,20 +130,14 @@ const UpdateHealthRecord = () => {
                     value={recordId}
                     onChange={(e) => setRecordId(e.target.value)}
                     placeholder="Enter record ID"
-                    className="w-full px-3 py-2 mb-3 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-                />
-                <input
-                    type="text"
-                    value={newIpfsHash}
-                    onChange={(e) => setNewIpfsHash(e.target.value)}
-                    placeholder="Enter new IPFS hash"
-                    className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                    className="w-full px-3 py-2 mb-3 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none"
                 />
             </div>
+            <IPFSUpload onUploadSuccess={handleUploadSuccess} onUploadError={handleUploadError} />
             <button
                 onClick={handleUpdateHealthRecord}
-                disabled={isPending || isConfirming}
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isPending || isConfirming || isUploading || !fileUploaded} // Disable button until file is uploaded successfully
+                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none disabled:opacity-50 mt-[20px]"
             >
                 {isPending ? 'Sending...' : isConfirming ? 'Confirming...' : 'Update Health Record'}
             </button>
@@ -146,4 +149,5 @@ const UpdateHealthRecord = () => {
 };
 
 export default UpdateHealthRecord;
+
 

@@ -69,7 +69,7 @@ const ScheduleAppointment: React.FC = () => {
     maxDate.setDate(maxDate.getDate() + maxFutureDays);
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-4xl mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full mx-auto max-w-4xl md:max-w-6xl lg:max-w-full">
             <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Schedule Appointment</h2>
             <form onSubmit={(e) => { e.preventDefault(); handleScheduleAppointment(); }} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div 

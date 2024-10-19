@@ -55,15 +55,15 @@ const UpdateAppointment: React.FC = () => {
     maxDate.setDate(maxDate.getDate() + maxFutureDays);
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Update Appointment</h2>
-            <form onSubmit={(e) => { e.preventDefault(); handleUpdateAppointment(); }}>
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full mx-auto my-[70px]">
+            <h2 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">Update Appointment</h2>
+            <form onSubmit={(e) => { e.preventDefault(); handleUpdateAppointment(); }} className="w-full">
                 <motion.div 
                     className="mb-4"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <label htmlFor="appointmentId" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Appointment ID:</label>
+                    <label htmlFor="appointmentId" className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">Appointment ID:</label>
                     <input
                         type="number"
                         id="appointmentId"
@@ -78,7 +78,7 @@ const UpdateAppointment: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >
-                    <label htmlFor="newDateTime" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">New Date and Time:</label>
+                    <label htmlFor="newDateTime" className="block text-base font-medium text-gray-700 dark:text-gray-300 mb-1">New Date and Time:</label>
                     <input
                         type="datetime-local"
                         id="newDateTime"
@@ -89,7 +89,7 @@ const UpdateAppointment: React.FC = () => {
                         className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
                         required
                     />
-                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    <p className="mt-1 text-base text-gray-500 dark:text-gray-400">
                         You can reschedule up to {maxFutureDays} days in advance.
                     </p>
                 </motion.div>
@@ -110,7 +110,7 @@ const UpdateAppointment: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="mt-4 text-gray-600 dark:text-gray-300 text-center animate-pulse"
+                        className="mt-4 text-base text-gray-600 dark:text-gray-300 text-center animate-pulse"
                     >
                         Updating appointment...
                     </motion.p>
@@ -120,7 +120,7 @@ const UpdateAppointment: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="mt-4 text-gray-600 dark:text-gray-300 text-center animate-pulse"
+                        className="mt-4 text-base text-gray-600 dark:text-gray-300 text-center animate-pulse"
                     >
                         Waiting for transaction confirmation...
                     </motion.p>
@@ -130,7 +130,7 @@ const UpdateAppointment: React.FC = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className="mt-4 text-gray-800 dark:text-white text-center font-semibold"
+                        className="mt-4 text-base text-gray-800 dark:text-white text-center font-semibold"
                     >
                         {updateStatus}
                     </motion.p>

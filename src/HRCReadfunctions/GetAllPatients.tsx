@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 import { useReadContract } from 'wagmi';
 import { contractHRC } from '../contracts';
 
+// Utility function to truncate address
+const truncateAddress = (address: string | undefined) => {
+    if (!address) return '';
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
 const GetAllPatients = () => {
     const [patients, setPatients] = useState<string[]>([]);
     const [fetchStatus, setFetchStatus] = useState('');
@@ -60,7 +66,8 @@ const GetAllPatients = () => {
                         <ul>
                             {patients.map((patient, index) => (
                                 <li key={index} className="mb-2">
-                                    {patient}
+                                    <span className="block md:hidden">{truncateAddress(patient)}</span>
+                                    <span className="hidden md:block">{patient}</span>
                                 </li>
                             ))}
                         </ul>

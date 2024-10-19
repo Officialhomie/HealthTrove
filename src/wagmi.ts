@@ -4,9 +4,15 @@ import { coinbaseWallet, injected, walletConnect } from 'wagmi/connectors'
 
 export const config = createConfig({
   chains: [baseSepolia],
+  multiInjectedProviderDiscovery: false,
+
   connectors: [
     injected(),
-    coinbaseWallet(),
+    coinbaseWallet({
+      appName: "Template",
+      preference: "all", // set this to `all` to use EOAs as well
+      version: "4",
+    }),
     walletConnect({ projectId: import.meta.env.VITE_WC_PROJECT_ID }),
     // Additional connectors you can use:
     // metaMask(),
@@ -16,8 +22,9 @@ export const config = createConfig({
     // rabbyConnect(),
     // okxWalletConnect(),
   ],
+  ssr: true,
   transports: {
-    [baseSepolia.id]: http(),
+    [baseSepolia.id]: http( ),
   },
 })
 
@@ -26,3 +33,5 @@ declare module 'wagmi' {
     config: typeof config
   }
 }
+
+

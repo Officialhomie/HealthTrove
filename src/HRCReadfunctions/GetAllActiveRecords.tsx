@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useReadContract } from 'wagmi';
 import { contractHRC } from '../contracts';
 
@@ -16,27 +16,28 @@ const GetActiveRecords = () => {
     const [activeRecords, setActiveRecords] = useState<HealthRecord[]>([]);
     const [fetchStatus, setFetchStatus] = useState('');
 
-    const { data, isError, isLoading } = useReadContract({
+    const { data } = useReadContract({
         ...contractHRC,
         functionName: 'getActiveRecords',
         args: [patientAddress],
         address: contractHRC.address as `0x${string}`,
     });
 
-    const handleFetchActiveRecords = () => {
+    useEffect(() => {
         if (data) {
             setActiveRecords(data as HealthRecord[]);
             setFetchStatus('Active records fetched successfully');
         } else {
             setFetchStatus('No active records found for this patient or error fetching records');
         }
+    }, [data]);
+
+    const handleFetchActiveRecords = () => {
+        setFetchStatus('Fetching active records...');
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error fetching active records</div>;
-
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full mx-auto md:max-w-full lg:max-w-full xl:max-w-full">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Get Active Records</h2>
             <div className="mb-4">
                 <input

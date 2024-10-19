@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useReadContract } from 'wagmi';
 import { contractHRC } from '../contracts';
 
@@ -7,27 +7,28 @@ const GetAllRecordIds = () => {
     const [recordIds, setRecordIds] = useState<number[]>([]);
     const [fetchStatus, setFetchStatus] = useState('');
 
-    const { data, isError, isLoading } = useReadContract({
+    const { data } = useReadContract({
         ...contractHRC,
         functionName: 'getAllRecordIds',
         args: [patientAddress],
         address: contractHRC.address as `0x${string}`,
     });
 
-    const handleFetchRecordIds = () => {
+    useEffect(() => {
         if (data) {
             setRecordIds(data as number[]);
             setFetchStatus('Record IDs fetched successfully');
         } else {
             setFetchStatus('No record IDs found or error fetching record IDs');
         }
+    }, [data]);
+
+    const handleFetchRecordIds = () => {
+        setFetchStatus('Fetching record IDs...');
     };
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error fetching record IDs</div>;
-
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full mx-auto md:max-w-full lg:max-w-full xl:max-w-full">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Get All Record IDs for Patient</h2>
             <div className="mb-4">
                 <input

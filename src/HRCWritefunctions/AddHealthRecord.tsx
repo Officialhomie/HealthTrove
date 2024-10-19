@@ -5,28 +5,32 @@ import IPFSUpload from '../components/IPFSUpload';
 
 const AddHealthRecord = () => {
     const [patientAddress, setPatientAddress] = useState('');
-    const [ipfsHash, setIpfsHash] = useState<string | null>(null);
+    const [ipfsHash, setIpfsHash] = useState<string>('');
     const [additionStatus, setAdditionStatus] = useState('');
+    const [isUploading, setIsUploading] = useState(false);
+    const [fileUploaded, setFileUploaded] = useState(false); // Added to track file upload status
 
-    const { writeContract, data: hash, error, isPending } = useWriteContract();
-
-    const { isLoading: isConfirming, isSuccess: isConfirmed } = 
-        useWaitForTransactionReceipt({
-            hash,
-        });
+    const { writeContract, data: transactionHash, error, isPending } = useWriteContract();
+    const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+        hash: transactionHash,
+    });
 
     const handleUploadSuccess = (hash: string) => {
         setIpfsHash(hash);
         setAdditionStatus('File uploaded to IPFS. Ready to add health record.');
+        setIsUploading(false);
+        setFileUploaded(true); // Set fileUploaded to true on success
     };
 
     const handleUploadError = (error: string) => {
         setAdditionStatus(`Error uploading file: ${error}`);
+        setIsUploading(false);
+        setFileUploaded(false); // Set fileUploaded to false on error
     };
 
     const handleAddHealthRecord = async () => {
         try {
-            if (!ipfsHash) {
+            if (!ipfsHash || !fileUploaded) { // Check if file has been uploaded successfully
                 throw new Error('Please upload a file to IPFS first');
             }
 
@@ -40,15 +44,19 @@ const AddHealthRecord = () => {
             });
             console.log('Transaction hash:', result);
             setAdditionStatus('Health record addition request sent. Transaction hash: ' + result);
-            setPatientAddress(''); // Clear the input after successful addition
         } catch (error) {
             console.error('Error adding health record:', error);
             setAdditionStatus('Error adding health record: ' + (error instanceof Error ? error.message : String(error)));
         }
     };
 
+    const handleCopyHash = () => {
+        navigator.clipboard.writeText(ipfsHash);
+        setAdditionStatus('IPFS Hash copied to clipboard');
+    };
+
     return (
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-full mx-auto w-full">
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Add Health Record</h2>
             <div className="mb-4">
                 <input
@@ -62,15 +70,22 @@ const AddHealthRecord = () => {
             </div>
             <button
                 onClick={handleAddHealthRecord}
-                disabled={isPending || isConfirming || !ipfsHash}
-                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isPending || isConfirming || isUploading || !fileUploaded} // Disable button until file is uploaded successfully
+                className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none disabled:opacity-50"
             >
                 {isPending ? 'Sending...' : isConfirming ? 'Confirming...' : 'Add Health Record'}
             </button>
             {isConfirmed && <p className="mt-4 text-lg text-center text-green-600">Health record added successfully!</p>}
             {error && <p className="mt-4 text-lg text-center text-red-600">Error: {error.message}</p>}
             {additionStatus && <p className="mt-4 text-lg text-center">{additionStatus}</p>}
-            {ipfsHash && <p className="mt-4 text-sm text-center">IPFS Hash: {ipfsHash}</p>}
+            {ipfsHash && (
+                <div className="mt-4 text-sm text-center">
+                    <p>IPFS Hash: {ipfsHash}</p>
+                    <button onClick={handleCopyHash} className="text-indigo-600 hover:underline focus:outline-none">
+                        Copy to Clipboard
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

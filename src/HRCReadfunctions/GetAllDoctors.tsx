@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import { useReadContract } from 'wagmi';
 import { contractHRC } from '../contracts';
 
+const truncateAddress = (address: string | undefined) => {
+    if (!address) return '';
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
 const GetAllDoctors = () => {
     const [doctors, setDoctors] = useState<string[]>([]);
     const [fetchStatus, setFetchStatus] = useState('');
@@ -36,6 +41,12 @@ const GetAllDoctors = () => {
         }
     }, [showStatus]);
 
+    const handleCopyAddress = (address: string) => {
+        navigator.clipboard.writeText(address);
+        setFetchStatus(`Address ${address} copied to clipboard`);
+        setShowStatus(true);
+    };
+
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error fetching doctors</div>;
 
@@ -59,8 +70,15 @@ const GetAllDoctors = () => {
                         <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Doctors List:</h3>
                         <ul>
                             {doctors.map((doctor, index) => (
-                                <li key={index} className="mb-2">
-                                    {doctor}
+                                <li key={index} className="mb-2 flex items-center justify-between">
+                                    <span className="block md:hidden">{truncateAddress(doctor)}</span>
+                                    <span className="hidden md:block">{doctor}</span>
+                                    <button
+                                        onClick={() => handleCopyAddress(doctor)}
+                                        className="ml-4 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors duration-300"
+                                    >
+                                        Copy
+                                    </button>
                                 </li>
                             ))}
                         </ul>
