@@ -86,22 +86,29 @@ function App() {
   return (
     <Router>
       <div>
-        <div className="flex flex-col sm:flex-row justify-between items-center px-[100px] pt-[30px]">
-          <div className="mb-4 sm:mb-0">
-            <img src={logo} alt="Logo" className="h-8 sm:h-10 w-auto rounded-md" />
+          <div className="bg-gradient-to-r from-purple-600 to-indigo-700 p-4 md:p-6 rounded-b-2xl shadow-lg">
+            <div className="max-w-7xl mx-auto flex flex-col space-y-4 sm:space-y-0">
+              <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
+                <div className="flex items-center space-x-4">
+                  <img src={logo} alt="Logo" className="h-12 sm:h-16 w-auto rounded-full border-2 border-white shadow-md transition-transform duration-300 hover:scale-105" />
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">HealthTrove</h1>
+                </div>
+                <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
+                  <WalletComponents />
+                  {address && (
+                    <button
+                      onClick={handleDisconnect}
+                      className="group relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-bold text-white rounded-full shadow-2xl transition-all duration-300 ease-out bg-red-500 hover:bg-red-600 active:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+                    >
+                      <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-red-600 via-red-500 to-orange-500"></span>
+                      <span className="absolute bottom-0 right-0 block w-64 h-64 mb-32 mr-4 transition-all duration-500 origin-bottom-left transform rotate-45 translate-x-24 bg-red-600 rounded-full opacity-30 group-hover:rotate-90 ease"></span>
+                      <span className="relative text-sm">Disconnect Wallet</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col sm:flex-row items-center">
-            <WalletComponents />
-            {address && (
-              <button
-                onClick={handleDisconnect}
-                className="mt-2 sm:mt-0 sm:ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm"
-              >
-                Disconnect Wallet
-              </button>
-            )}
-          </div>
-        </div>
         <Routes>
           <Route
             path="/"
