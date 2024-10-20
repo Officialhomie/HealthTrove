@@ -6,6 +6,8 @@ import {
   metaMask
 } from './exports';
 
+import logo from '../src/resources/DALL·E 2024-10-20 18.38.38 - A creative logo for the HealthTrove project, incorporating colors from modern healthcare themes like soft blues, greens, and dark grays. The logo shou.webp'
+
 // Import role-specific components (to be created)
 import PatientDashboard from './components/PatientDashboard';
 import DoctorDashboard from './components/DoctorDashboard';
@@ -84,19 +86,27 @@ function App() {
   return (
     <Router>
       <div>
-        <div className="flex justify-end p-4">
-          <WalletComponents />
-          {address && (
-            <button
-              onClick={handleDisconnect}
-              className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-[3px] md:py-3 px-2 md:px-4 rounded md:ml-4 text-sm"
-            >
-              Disconnect Wallet
-            </button>
-          )}
+        <div className="flex flex-col sm:flex-row justify-between items-center px-[100px] pt-[30px]">
+          <div className="mb-4 sm:mb-0">
+            <img src={logo} alt="Logo" className="h-8 sm:h-10 w-auto rounded-md" />
+          </div>
+          <div className="flex flex-col sm:flex-row items-center">
+            <WalletComponents />
+            {address && (
+              <button
+                onClick={handleDisconnect}
+                className="mt-2 sm:mt-0 sm:ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded text-sm"
+              >
+                Disconnect Wallet
+              </button>
+            )}
+          </div>
         </div>
         <Routes>
-          <Route path="/" element={address ? renderLandingPage() : renderLandingPage()} />
+          <Route
+            path="/"
+            element={address ? renderLandingPage() : renderLandingPage()}
+          />
           <Route path="/patient" element={<PatientDashboard />} />
           <Route path="/doctor" element={<DoctorDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />

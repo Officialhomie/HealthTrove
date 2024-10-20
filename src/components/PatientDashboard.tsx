@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import GetDoctorInfo from '../HRCReadfunctions/GetDoctorInfo';
 
 const PatientDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('appointments');
+  const [activeTab, setActiveTab] = useState('profile');
   // const [showDoctors, setShowDoctors] = useState(false);
   const navigate = useNavigate();
 
