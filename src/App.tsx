@@ -6,7 +6,7 @@ import {
   metaMask
 } from './exports';
 
-import RevokeRole from './components/BaseNames';
+// import RevokeRole from './components/BaseNames';
 
 import logo from '../src/resources/DALL·E 2024-10-20 18.38.38 - A creative logo for the HealthTrove project, incorporating colors from modern healthcare themes like soft blues, greens, and dark grays. The logo shou.webp'
 
