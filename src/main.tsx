@@ -20,6 +20,7 @@ globalThis.Buffer = Buffer
 
 const queryClient = new QueryClient()
 const key = import.meta.env.VITE_ONCHAINKIT_API_KEY
+const projectId = import.meta.env.VITE_CDP_PROJECT_ID
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <OnchainKitProvider
           apiKey={key}
           chain={baseSepolia}
+          projectId={projectId}
         >
           <App />
         </OnchainKitProvider>

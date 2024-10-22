@@ -24,7 +24,7 @@ export const config = createConfig({
   ],
   ssr: true,
   transports: {
-    [baseSepolia.id]: http( ),
+    [baseSepolia.id]: http('https://api.developer.coinbase.com/rpc/v1/base-sepolia/31Qwwnsz7Gsq5g04bWovmUEvVWXdYR__'),
   },
 })
 
@@ -33,5 +33,4 @@ declare module 'wagmi' {
     config: typeof config
   }
 }
-
 

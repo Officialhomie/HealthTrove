@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Appointments, CancelAppointment, CheckTakenSlots, GetAllDoctors, GiveConsent, IsPatient, RegisterPatients, RevokeConsent, ScheduleAppointment, UpdateAppointment } from '../exports';
 import { useNavigate } from 'react-router-dom';
 import GetDoctorInfo from '../HRCReadfunctions/GetDoctorInfo';
+import FundAccount from './Fund';
 
 const PatientDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -68,6 +69,7 @@ const PatientDashboard: React.FC = () => {
                 Your Profile
               </h2>
               <RegisterPatients />
+              <FundAccount />
             </div>
             <div className="p-6 bg-white dark:bg-gray-800 shadow-md rounded-lg">
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">

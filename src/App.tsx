@@ -6,6 +6,8 @@ import {
   metaMask
 } from './exports';
 
+import RevokeRole from './components/BaseNames';
+
 import logo from '../src/resources/DALL·E 2024-10-20 18.38.38 - A creative logo for the HealthTrove project, incorporating colors from modern healthcare themes like soft blues, greens, and dark grays. The logo shou.webp'
 
 // Import role-specific components (to be created)
@@ -31,8 +33,8 @@ function App() {
             Blockchain-Based Healthcare Management System
           </h1>
           <nav className="flex space-x-6">
-            <a href="#about" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">About</a>
-            <a href="#how-it-works" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">How It Works</a>
+            <a href="https://health-trove.gitbook.io/health-trove-docs" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">About</a>
+            <a href="" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">How It Works</a>
             <a href="#faq" className="text-lg font-semibold hover:text-green-200 transition-colors duration-300">FAQ</a>
           </nav>
         </div>
@@ -119,6 +121,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </div>
+
     </Router>
   );
 }
