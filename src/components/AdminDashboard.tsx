@@ -17,9 +17,6 @@ const AdminDashboard = () => {
     }
   }, [address]);
 
-  const handleGoBack = () => {
-    navigate(-1);
-  };
 
   const handleGoHome = () => {
     navigate('/');
@@ -32,7 +29,7 @@ const AdminDashboard = () => {
         <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">Wallet Not Connected</h1>
         <div className="bg-white p-6 rounded-md shadow-md">
           <p className="text-2xl text-yellow-600 font-semibold text-center mb-4">
-            Please connect your wallet to access the admin dashboard.
+            Connect your wallet to access the admin dashboard.
           </p>
         </div>
         {renderNavigationButtons()}
@@ -125,12 +122,6 @@ const AdminDashboard = () => {
   function renderNavigationButtons() {
     return (
       <div className="mt-8 text-center">
-        <button
-          onClick={handleGoBack}
-          className="inline-block bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105 mr-4"
-        >
-          Go Back
-        </button>
         <button
           onClick={handleGoHome}
           className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
