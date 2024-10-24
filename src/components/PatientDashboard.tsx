@@ -5,6 +5,7 @@ import { Appointments, CancelAppointment, CheckTakenSlots, GetAllDoctors, GiveCo
 import { useNavigate } from 'react-router-dom';
 import GetDoctorInfo from '../HRCReadfunctions/GetDoctorInfo';
 import FundAccount from './Fund';
+import Footer from '../components/Footer';
 
 const PatientDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -85,7 +86,7 @@ const PatientDashboard: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-10 px-4">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen pt-10">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-white mb-8">
           Patient Dashboard
@@ -124,9 +125,64 @@ const PatientDashboard: React.FC = () => {
         </button>
       </div>
 
-      <footer className="bg-gray-200 dark:bg-gray-800 mt-10 py-6">
-        {/* Footer content remains the same */}
-      </footer>
+      {/* <footer className="bg-gray-900 text-white py-8">
+        <div className="container mx-auto px-6 md:flex md:justify-between">
+          <div className="mb-6 md:mb-0">
+            <h3 className="text-xl font-semibold text-white">HealthTrove</h3>
+            <p className="mt-2 text-sm text-gray-400">
+                Your go-to on-chain patient management and healthcare scheduling system.
+            </p>
+          </div>
+          <div className="mb-6 md:mb-0">
+            <h4 className="font-semibold text-sm uppercase mb-2 text-white">Quick Links</h4>
+            <ul>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-gray-200 text-sm">About Us</a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-gray-200 text-sm">Privacy Policy</a>
+                </li>
+                <li>
+                   <a href="#" className="text-gray-400 hover:text-gray-200 text-sm">Terms of Service</a>
+                </li>
+                <li>
+                  <a href="#" className="text-gray-400 hover:text-gray-200 text-sm">Contact Us</a>
+                </li>
+            </ul>
+          </div>
+          <div className="mb-6 md:mb-0">
+              <h4 className="font-semibold text-sm uppercase mb-2 text-white">Contact</h4>
+              <p className="text-sm text-gray-400">
+                  Email: <a href="mailto:support@healthtrove.com" className="hover:text-gray-200">support@healthtrove.com</a>
+              </p>
+              <p className="text-sm text-gray-400">Phone: +1 (234) 567-8900</p>
+              <p className="text-sm text-gray-400">Address: 123 Healthcare Lane, Wellness City</p>
+          </div>
+          <div>
+              <h4 className="font-semibold text-sm uppercase mb-2 text-white">Follow Us</h4>
+              <div className="flex space-x-4">
+                  <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-gray-200">
+                      <i className="fab fa-facebook fa-lg"></i>
+                  </a>
+                  <a href="#" aria-label="Twitter" className="text-gray-400 hover:text-gray-200">
+                      <i className="fab fa-twitter fa-lg"></i>
+                  </a>
+                  <a href="#" aria-label="LinkedIn" className="text-gray-400 hover:text-gray-200">
+                      <i className="fab fa-linkedin fa-lg"></i>
+                  </a>
+                  <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-gray-200">
+                      <i className="fab fa-instagram fa-lg"></i>
+                  </a>
+              </div>
+          </div>
+        </div>
+        <div className="mt-8 border-t border-gray-700 pt-6 text-center">
+            <p className="text-sm text-gray-500">
+                &copy; 2024 HealthTrove. All rights reserved.
+            </p>
+        </div>
+      </footer> */}
+      <Footer />
     </div>
   );
 };
