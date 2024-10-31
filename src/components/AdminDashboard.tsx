@@ -11,6 +11,7 @@ import RegisteredPatientsListener from '@/HRCevents/RegisteredPatientListener';
 import RegistrationFeeListener from '@/HRCevents/RegistrationFeeListener';
 import PauseContract from '@/HRCWritefunctions/PauseContract';
 import UnpauseContract from '@/HRCWritefunctions/UnpauseContract';
+import PausedEventListener from '@/HRCevents/PauseListener';
 
 interface TabButtonProps {
   active: boolean;
@@ -246,6 +247,9 @@ const AdminDashboard = () => {
                 </EventCard>
                 <EventCard title="Registration Fees">
                   <RegistrationFeeListener />
+                </EventCard>
+                <EventCard title="Pause Listener">
+                  <PausedEventListener />
                 </EventCard>
               </div>
             </div>
