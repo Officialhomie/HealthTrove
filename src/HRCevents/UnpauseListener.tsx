@@ -1,9 +1,10 @@
+// UnpausedEventListener.tsx
 import { useState, useEffect } from 'react';
 import { usePublicClient, useWatchContractEvent } from 'wagmi';
 import { contractHRC } from '../contracts';
 import { Log, decodeEventLog } from 'viem';
 
-interface PausedEvent {
+interface UnpausedEvent {
     account: `0x${string}`;
     transactionHash: `0x${string}`;
     blockNumber: bigint;
@@ -12,8 +13,8 @@ interface PausedEvent {
 
 const POLLING_INTERVAL = 5000;
 
-const PausedEventListener = () => {
-    const [pausedEvents, setPausedEvents] = useState<PausedEvent[]>([]);
+const UnpausedEventListener = () => {
+    const [unpausedEvents, setUnpausedEvents] = useState<UnpausedEvent[]>([]);
     const [isListening, setIsListening] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [lastBlockChecked, setLastBlockChecked] = useState<bigint | null>(null);
@@ -24,7 +25,7 @@ const PausedEventListener = () => {
             const logs = await publicClient.getLogs({
                 address: contractHRC.address as `0x${string}`,
                 event: {
-                    name: 'Paused',
+                    name: 'Unpaused',
                     type: 'event',
                     inputs: [
                         {
@@ -55,22 +56,22 @@ const PausedEventListener = () => {
                 const account = (decodedLog.args && typeof decodedLog.args === 'object' && 'account' in decodedLog.args)
                     ? (decodedLog.args as { account: `0x${string}` }).account
                     : null;
-                
+
                 if (!account) continue;
 
                 if (
                     log.transactionHash &&
                     log.blockNumber !== null &&
-                    !pausedEvents.some(event => event.transactionHash === log.transactionHash)
+                    !unpausedEvents.some(event => event.transactionHash === log.transactionHash)
                 ) {
                     const block = await publicClient.getBlock({ blockHash: log.blockHash! });
-                    const newEvent: PausedEvent = {
+                    const newEvent: UnpausedEvent = {
                         account,
                         transactionHash: log.transactionHash!,
                         blockNumber: log.blockNumber!,
                         timestamp: Number(block.timestamp),
                     };
-                    setPausedEvents(prevEvents => [...prevEvents, newEvent]);
+                    setUnpausedEvents(prevEvents => [...prevEvents, newEvent]);
                 }
             } catch (err) {
                 console.error('Error processing log:', err);
@@ -115,7 +116,7 @@ const PausedEventListener = () => {
     useWatchContractEvent({
         address: contractHRC.address as `0x${string}`,
         abi: contractHRC.abi,
-        eventName: 'Paused',
+        eventName: 'Unpaused',
         onLogs(logs) {
             processLogs(logs as Log[]);
         },
@@ -127,8 +128,8 @@ const PausedEventListener = () => {
 
     return (
         <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-full mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Paused Events</h2>
-            
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Unpaused Events</h2>
+
             <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
                 Status: {isListening ? (
                     <span className="text-green-500">Monitoring for events (Block: {lastBlockChecked?.toString()})</span>
@@ -144,7 +145,7 @@ const PausedEventListener = () => {
                 </div>
             )}
             
-            {pausedEvents.length > 0 ? (
+            {unpausedEvents.length > 0 ? (
                 <div className="overflow-x-auto">
                     <table className="min-w-full table-auto text-sm">
                         <thead>
@@ -156,7 +157,7 @@ const PausedEventListener = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {pausedEvents.map((event, index) => (
+                            {unpausedEvents.map((event, index) => (
                                 <tr 
                                     key={event.transactionHash} 
                                     className={`${
@@ -183,11 +184,11 @@ const PausedEventListener = () => {
                 </div>
             ) : (
                 <p className="text-lg text-gray-600 dark:text-gray-300">
-                    No pause events detected yet.
+                    No unpause events detected yet.
                 </p>
             )}
         </div>
     );
 };
 
-export default PausedEventListener;
+export default UnpausedEventListener;
