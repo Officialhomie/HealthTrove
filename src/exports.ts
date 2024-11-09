@@ -39,7 +39,7 @@ export { default as RevokeConsent } from './HRCWritefunctions/RevokeConsent';
 export { default as RevokeRole } from './HRCWritefunctions/RevokeRole';
 
 // Healthcare Record Contracts - HRC Events
-export { default as DoctorRegisteredListener } from './HRCevents/DoctorRegistered';
+export { default as DoctorRegisteredListener } from './HRCevents/DoctorRegisteredListener';
 export { default as PatientRegisteredListener } from './HRCevents/PatientRegistered';
 
 // Scheduling System - SS Write Functions

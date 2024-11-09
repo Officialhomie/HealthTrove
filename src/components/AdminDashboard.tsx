@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
 import { useNavigate } from 'react-router-dom';
 import { contractHRC } from '../contracts';
-import { AddDoctors, GetAllActiveRecords, GetAllDoctors, GetAllPatients, GetAllRecordIds } from '../exports';
+import { AddDoctors, DoctorRegisteredListener, GetAllActiveRecords, GetAllDoctors, GetAllPatients, GetAllRecordIds } from '../exports';
 import ApprovePatientRegistration from '../HRCWritefunctions/ApprovePatientRegistration';
 import GetDoctorInfo from '../HRCReadfunctions/GetDoctorInfo';
 import Footer from './Footer';
@@ -13,6 +13,7 @@ import PauseContract from '@/HRCWritefunctions/PauseContract';
 import UnpauseContract from '@/HRCWritefunctions/UnpauseContract';
 import PausedEventListener from '@/HRCevents/PauseListener';
 import UnpausedEventListener from '@/HRCevents/UnpauseListener';
+import DoctorRemovedListener from '@/HRCevents/DoctorRemovedListener';
 
 interface TabButtonProps {
   active: boolean;
@@ -245,6 +246,15 @@ const AdminDashboard = () => {
                 </EventCard>
                 <EventCard title="Registered Patients">
                   <RegisteredPatientsListener />
+                </EventCard>
+                <EventCard title="Registration Fees">
+                  <RegistrationFeeListener />
+                </EventCard>
+                <EventCard title="Doctor Registered">
+                  <DoctorRegisteredListener />
+                </EventCard>
+                <EventCard title="Doctor Removed">
+                  <DoctorRemovedListener />
                 </EventCard>
                 <EventCard title="Registration Fees">
                   <RegistrationFeeListener />

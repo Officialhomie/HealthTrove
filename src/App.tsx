@@ -14,6 +14,7 @@ import logo from '../src/resources/DALL·E 2024-10-20 18.38.38 - A creative logo
 import PatientDashboard from './components/PatientDashboard';
 import DoctorDashboard from './components/DoctorDashboard';
 import AdminDashboard from './components/AdminDashboard';
+import Footer from './components/Footer';
 
 function App() {
   const { address } = useAccount();
