@@ -1,76 +1,111 @@
 import { useState } from 'react';
-import { useWatchContractEvent } from 'wagmi';
+import { usePublicClient, useWatchContractEvent } from 'wagmi';
 import { contractHRC } from '../contracts';
-import { Log } from 'viem';
+import { Log, decodeEventLog } from 'viem';
 
-interface PatientConsentLog extends Log {
-    args: {
-        patient: `0x${string}`;
-        consentTo: `0x${string}`;
-        consent: boolean;
-    };
+interface PatientConsentEvent {
+    patient: `0x${string}`;
+    consentTo: `0x${string}`;
+    consent: boolean;
+    transactionHash: `0x${string}`;
+    blockNumber: bigint;
+    timestamp?: number;
 }
 
 const PatientConsentListener = () => {
-    const [patientConsents, setPatientConsents] = useState<Array<{ patient: `0x${string}`; consentTo: `0x${string}`; consent: boolean; transactionHash: string }>>([]);
+    const [patientConsents, setPatientConsents] = useState<PatientConsentEvent[]>([]);
+    const publicClient = usePublicClient();
+
+    const processLogs = async (logs: Log[]) => {
+        for (const log of logs) {
+            const decodedLog = decodeEventLog({
+                abi: contractHRC.abi,
+                data: log.data,
+                topics: log.topics,
+            });
+
+            // Type guard to check if args exists and has the expected shape
+            if (!decodedLog.args || typeof decodedLog.args !== 'object') continue;
+
+            const args = decodedLog.args as unknown;
+            if (!isPatientConsentArgs(args)) continue;
+
+            if (log.transactionHash && log.blockNumber !== null) {
+                const block = await publicClient.getBlock({ blockHash: log.blockHash! });
+                setPatientConsents((prevConsents) => [
+                    ...prevConsents,
+                    {
+                        patient: args.patient,
+                        consentTo: args.consentTo,
+                        consent: args.consent,
+                        transactionHash: log.transactionHash!,
+                        blockNumber: log.blockNumber!,
+                        timestamp: Number(block.timestamp),
+                    },
+                ]);
+            }
+        }
+    };
+
+    // Type guard function
+    const isPatientConsentArgs = (args: unknown): args is { 
+        patient: `0x${string}`; 
+        consentTo: `0x${string}`; 
+        consent: boolean; 
+    } => {
+        return (
+            typeof args === 'object' && 
+            args !== null &&
+            'patient' in args &&
+            'consentTo' in args &&
+            'consent' in args &&
+            typeof (args as any).patient === 'string' &&
+            typeof (args as any).consentTo === 'string' &&
+            typeof (args as any).consent === 'boolean'
+        );
+    };
 
     useWatchContractEvent({
         address: contractHRC.address as `0x${string}`,
         abi: contractHRC.abi,
         eventName: 'PatientConsent',
-        onLogs(logs) {
-            logs.forEach((log) => {
-                const typedLog = log as PatientConsentLog;
-                if (typedLog.args) {
-                    setPatientConsents((prevConsents) => [
-                        ...prevConsents,
-                        { 
-                            patient: typedLog.args.patient, 
-                            consentTo: typedLog.args.consentTo, 
-                            consent: typedLog.args.consent, 
-                            transactionHash: log.transactionHash! 
-                        },
-                    ]);
-                }
-            });
-        },
+        onLogs: processLogs,
     });
 
-    const truncateHash = (hash: string) => `${hash.slice(0, 6)}...${hash.slice(-4)}`;
-    const getExplorerUrl = (hash: string) => `https://sepolia.basescan.org/tx/${hash}`;
-
     return (
-        <div className="mb-6">
-            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">Patient Consents</h3>
+        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-full mx-auto">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Patient Consents</h2>
             {patientConsents.length > 0 ? (
-                <ul className="space-y-2">
-                    {patientConsents.map((consent, index) => (
-                        <li key={`${consent.patient}-${consent.consentTo}-${index}`} className="text-gray-800 dark:text-white break-all bg-gray-50 dark:bg-gray-700 p-3 rounded">
-                            <p>
-                                <strong>Patient:</strong> {consent.patient} 
-                            </p>
-                            <p>
-                                <strong>Consent To:</strong> {consent.consentTo}
-                            </p>
-                            <p>
-                                <strong>Consent Status:</strong> {consent.consent ? 'Granted' : 'Revoked'}
-                            </p>
-                            <p>
-                                <strong>Transaction:</strong>
-                                <a 
-                                    href={getExplorerUrl(consent.transactionHash)}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-500 hover:text-blue-700 dark:text-blue-400"
-                                >
-                                    {truncateHash(consent.transactionHash)}
-                                </a>
-                            </p>
-                        </li>
-                    ))}
-                </ul>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full table-auto text-sm">
+                        <thead>
+                            <tr className="bg-gray-100 dark:bg-gray-700">
+                                <th>Time</th>
+                                <th>Patient</th>
+                                <th>Consent To</th>
+                                <th>Consent</th>
+                                <th>Transaction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {patientConsents.map((consent) => (
+                                <tr key={consent.transactionHash} className="border-b dark:border-gray-700">
+                                    <td>{consent.timestamp ? new Date(consent.timestamp * 1000).toLocaleString() : 'Processing...'}</td>
+                                    <td>{consent.patient}</td>
+                                    <td>{consent.consentTo}</td>
+                                    <td>{consent.consent ? 'Granted' : 'Revoked'}</td>
+                                    <td>
+                                        <a href={`https://sepolia.basescan.org/tx/${consent.transactionHash}`} target="_blank" rel="noopener noreferrer">
+                                            {consent.transactionHash.slice(0, 6)}...{consent.transactionHash.slice(-4)}
+                                        </a>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             ) : (
-                <p className="text-lg text-gray-600 dark:text-gray-300">No patient consents recorded yet.</p>
+                <p>No patient consents recorded yet.</p>
             )}
         </div>
     );

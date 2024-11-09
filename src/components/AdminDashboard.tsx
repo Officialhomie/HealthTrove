@@ -14,6 +14,11 @@ import UnpauseContract from '@/HRCWritefunctions/UnpauseContract';
 import PausedEventListener from '@/HRCevents/PauseListener';
 import UnpausedEventListener from '@/HRCevents/UnpauseListener';
 import DoctorRemovedListener from '@/HRCevents/DoctorRemovedListener';
+import PatientConsentListener from '@/HRCevents/PatientConsentListener';
+import PatientRegistrationApprovedListener from '@/HRCevents/PatientRegistrationApprovedListener';
+import RecordAddedListener from '@/HRCevents/RecordAddedListener';
+import RecordUpdatedListener from '@/HRCevents/RecordUpdatedListener';
+import RecordDeactivatedListener from '@/HRCevents/RecordDeactivatedListener';
 
 interface TabButtonProps {
   active: boolean;
@@ -256,8 +261,20 @@ const AdminDashboard = () => {
                 <EventCard title="Doctor Removed">
                   <DoctorRemovedListener />
                 </EventCard>
-                <EventCard title="Registration Fees">
-                  <RegistrationFeeListener />
+                <EventCard title="Patient Consent">
+                  <PatientConsentListener />
+                </EventCard>
+                <EventCard title="Patient Registration Approved">
+                  <PatientRegistrationApprovedListener />
+                </EventCard>
+                <EventCard title="Record Added">
+                  <RecordAddedListener />
+                </EventCard>
+                <EventCard title="Record Updated">
+                  <RecordUpdatedListener />
+                </EventCard>
+                <EventCard title="Record Deactivated">
+                  <RecordDeactivatedListener />
                 </EventCard>
                 <EventCard title="Pause Listener">
                   <PausedEventListener />
